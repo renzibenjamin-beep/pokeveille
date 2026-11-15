@@ -87,6 +87,13 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
 .src{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .toast{position:fixed;bottom:18px;right:18px;background:var(--ink);color:var(--panel);padding:10px 14px;border-radius:10px;opacity:0;transition:.3s;pointer-events:none}
 .toast.on{opacity:1}
+.heat{display:grid;grid-template-columns:44px repeat(12,1fr);gap:3px;font-size:11px;color:var(--muted)}
+.heat div{height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center}
+.heat .c{background:var(--grey-bg)}
+.pat{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.pat:last-child{border-bottom:none}
+.store-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.store-actions .btn{padding:5px 10px;font-size:13px}
 /* page publique (telephone) : lecture seule */
 .static #btn-scan, .static #btn-test, .static #btn-clear, .static #btn-notif,
 .static #nav [data-tab="catalogue"], .static #nav [data-tab="reglages"] { display:none }
@@ -114,6 +121,8 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
     <nav id="nav">
       <button data-tab="produits" class="on">Produits <span class="count" id="c-produits">0</span></button>
       <button data-tab="signalements">Signalements magasin <span class="count" id="c-sig">0</span></button>
+      <button data-tab="proche">Près de chez moi</button>
+      <button data-tab="reassorts">Réassorts <span class="count" id="c-reassorts">0</span></button>
       <button data-tab="alertes">Alertes <span class="count" id="c-alertes">0</span></button>
       <button data-tab="liens">Vérifier les enseignes</button>
       <button data-tab="catalogue">Catalogue &amp; prix</button>
@@ -129,7 +138,7 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
       <div class="kpi"><b id="k-ok" style="color:var(--ok)">0</b><span>Dispo au prix magasin</span></div>
       <div class="kpi"><b id="k-gonfle" style="color:var(--warn)">0</b><span>Dispo mais prix gonflé (revendeurs)</span></div>
       <div class="kpi"><b id="k-rupture">0</b><span>En rupture</span></div>
-      <div class="kpi"><b id="k-sig" style="color:var(--info)">0</b><span>Signalements Dealabs</span></div>
+      <div class="kpi"><b id="k-sig" style="color:var(--info)">0</b><span>Signalements</span></div>
     </div>
     <div class="src" id="sources"></div>
     <div class="filters" id="filters">
@@ -145,14 +154,37 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
   <!-- SIGNALEMENTS -->
   <section class="tab" id="tab-signalements">
     <div class="panel">
-      <h2>Signalements de la communauté (Dealabs)</h2>
-      <p class="hint" style="margin:0">Les membres de Dealabs signalent les produits trouvés en rayon (Carrefour, Leclerc, Fnac…) ou en ligne. Les signalements mentionnant un magasin sont marqués « En magasin » et déclenchent une alerte prioritaire. Dernières 200 entrées liées aux 30 ans.</p>
+      <h2>Signalements de la communauté</h2>
+      <p class="hint" style="margin:0">Dealabs (groupes Pokémon, Jouets, Jeux de société et tous les nouveaux bons plans) et Le Crocodéal. Les membres signalent les produits trouvés en rayon (Carrefour, Leclerc, Fnac…) ou en ligne. « En magasin » et « 📍 près de chez toi » déclenchent une alerte prioritaire. 200 dernières entrées liées aux 30 ans.</p>
     </div>
     <div class="filters">
       <button class="chip on" data-sf="tous">Tous</button>
       <button class="chip" data-sf="magasin">En magasin uniquement</button>
     </div>
     <div class="list" id="sig"></div>
+  </section>
+
+  <!-- PRES DE CHEZ MOI -->
+  <section class="tab" id="tab-proche">
+    <div class="panel">
+      <h2>Magasins près de chez toi</h2>
+      <p class="hint" style="margin:0">Hypermarchés, enseignes culture/jeux vidéo, magasins de jouets et boutiques de jeux dans un rayon de 50 km (données OpenStreetMap). Les stocks en rayon ne sont pas publiés en ligne : utilise « Vérifier le stock » (choisis ce magasin sur le site de l'enseigne) ou appelle avant de te déplacer. Les signalements qui citent une commune de ta zone apparaissent en haut et déclenchent une alerte prioritaire.</p>
+    </div>
+    <div class="filters" id="zone-chips"></div>
+    <div class="list" id="sig-proche" style="margin-bottom:14px"></div>
+    <div class="filters" id="cat-chips"></div>
+    <div class="list" id="stores"></div>
+  </section>
+
+  <!-- REASSORTS -->
+  <section class="tab" id="tab-reassorts">
+    <div class="panel">
+      <h2>Habitudes de réassort</h2>
+      <p class="hint" style="margin:0">Chaque retour en stock (ou nouvelle fiche déjà en stock) est enregistré. Avec le temps, PokéVeille repère les jours et heures où chaque boutique remet en stock : sois prêt à ces moments-là. Les tendances deviennent fiables après quelques semaines.</p>
+    </div>
+    <div class="panel"><h2>Quand ça revient en stock (toutes boutiques)</h2><div id="heatmap"></div></div>
+    <div class="panel"><h2>Par boutique</h2><div id="patterns"></div></div>
+    <div class="panel"><h2>Derniers réassorts</h2><div class="list" id="history"></div></div>
   </section>
 
   <!-- ALERTES -->
@@ -206,9 +238,9 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
         <label for="r-ntfy">Sujet ntfy (alertes sur téléphone)</label>
         <div><div style="display:flex;gap:8px"><input type="text" id="r-ntfy" placeholder="ex. pokeveille-k3x9q2"><button id="btn-gen">Générer</button></div>
           <p class="hint">Installez l'appli gratuite <b>ntfy</b> (Android / iPhone), abonnez-vous à ce sujet sur ntfy.sh : vous recevez les alertes sur votre téléphone, même en déplacement. Choisissez un nom difficile à deviner (les sujets sont publics).</p></div>
-        <label for="r-ntfypc">Envoyer les alertes ntfy depuis ce PC</label><div><input type="checkbox" id="r-ntfypc"> <span class="hint">à décocher quand GitHub envoie déjà les alertes au téléphone (évite les doublons) ; fait automatiquement par « Publier sur GitHub »</span></div>
+        <label for="r-ntfypc">Envoyer les alertes ntfy / Discord depuis ce PC</label><div><input type="checkbox" id="r-ntfypc"> <span class="hint">à décocher quand GitHub envoie déjà les alertes (évite les doublons) ; fait automatiquement par « Publier sur GitHub ». Le bouton « notification de test » envoie quand même.</span></div>
         <label for="r-ntfys">Serveur ntfy</label><input type="text" id="r-ntfys">
-        <label for="r-disc">Webhook Discord (facultatif)</label><input type="text" id="r-disc" placeholder="https://discord.com/api/webhooks/…">
+        <label for="r-disc">Webhook Discord (facultatif)</label><div><input type="text" id="r-disc" placeholder="https://discord.com/api/webhooks/…"><p class="hint">Discord › Paramètres du serveur › Intégrations › Webhooks › Nouveau webhook › Copier l'URL. Garde cette adresse pour toi : elle permet d'écrire dans ton salon. Elle n'est jamais publiée (secret GitHub).</p></div>
       </div>
     </div>
     <div class="panel">
@@ -219,7 +251,10 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
         <label for="s-shop">Boutiques Shopify</label><div><input type="checkbox" id="s-shop"> <span class="hint">boutiques spécialisées JCC (une URL par ligne ci-dessous)</span></div>
         <label for="s-shop-b">URLs des boutiques</label><textarea id="s-shop-b"></textarea>
         <label for="s-shop-q">Recherches boutiques (1 par ligne)</label><textarea id="s-shop-q"></textarea>
-        <label for="s-deal">Dealabs</label><div><input type="checkbox" id="s-deal"> <span class="hint">flux RSS des bons plans signalés</span></div>
+        <label for="s-woo">Boutiques WooCommerce</label><div><input type="checkbox" id="s-woo"> <span class="hint">autres boutiques spécialisées (Cardshunter, Pixelheart…)</span></div>
+        <label for="s-woo-b">URLs des boutiques</label><div><textarea id="s-woo-b"></textarea><p class="hint">Ajoutez <code>| pokemon</code> après une URL pour ne garder que les produits dont le titre contient « Pokémon » (boutiques généralistes).</p></div>
+        <label for="s-woo-q">Recherches WooCommerce (1 par ligne)</label><textarea id="s-woo-q"></textarea>
+        <label for="s-deal">Signalements</label><div><input type="checkbox" id="s-deal"> <span class="hint">flux RSS des bons plans signalés (Dealabs, Le Crocodéal…)</span></div>
         <label for="s-deal-f">Flux RSS (1 par ligne)</label><textarea id="s-deal-f"></textarea>
         <label for="s-pages">Pages surveillées</label><div><input type="checkbox" id="s-pages"> <span class="hint">n'importe quelle fiche produit</span></div>
         <label for="s-pages-l">Fiches produit</label>
@@ -266,6 +301,15 @@ const LIENS = [
   ['King Jouet', 'https://www.king-jouet.com/', 'Recherchez « Pokémon 30 ans »'],
   ['JouéClub', 'https://www.joueclub.fr/', 'Recherchez « Pokémon 30 ans »'],
   ['Smyths Toys', 'https://www.smythstoys.com/fr/fr-fr/search/?text=pokemon%2030', 'Click & collect'],
+  ['Le Coin des Barons', 'https://lecoindesbarons.com/', 'Boutique JCC · magasin à Lyon'],
+  ['Variantes', 'https://www.variantes.com/', 'Boutique JCC · Click & Collect'],
+  ['Les Gentlemen du Jeu', 'https://lesgentlemendujeu.com/', 'Boutique JCC'],
+  ['Pokésumo', 'https://pokesumo.com/', 'Boutique Pokémon'],
+  ['Play-in', 'https://www.play-in.com/', 'Boutique JCC · magasin à Lyon'],
+  ['Blazing Tail', 'https://www.blazingtail.fr/', 'Boutique Pokémon'],
+  ['Philibert', 'https://www.philibertnet.com/', 'Jeux de société & JCC'],
+  ['Ludum', 'https://www.ludum.fr/', 'Jeux de société & JCC'],
+  ['Le Crocodéal', 'https://lecrocodeal.com/', 'Suivi des réassorts · surveillé automatiquement'],
   ['Auchan', 'https://www.auchan.fr/recherche?text=pokemon+30+ans', 'Surveillé automatiquement'],
   ['Dealabs · groupe Pokémon', 'https://www.dealabs.com/groupe/pokemon', 'Surveillé automatiquement'],
 ];
@@ -306,7 +350,7 @@ function render(){
   const busy = S.analyseEnCours;
   $('#st-run').innerHTML = `<span class="dot ${busy?'busy':''}"></span>${busy?'Analyse en cours…':(STATIC?'Surveillance GitHub':'Surveillance active')}`;
   $('#st-last').textContent = 'Dernière : ' + fmtDate(S.derniereAnalyse);
-  $('#st-next').textContent = STATIC ? 'Prochaine : ~10 min' : 'Prochaine : ' + fmtDate(S.prochaineAnalyse);
+  $('#st-next').textContent = STATIC ? 'Prochaine : ~5 min' : 'Prochaine : ' + fmtDate(S.prochaineAnalyse);
 
   const P = S.produits || [];
   const cnt = st => P.filter(p=>p.statut===st).length;
@@ -349,7 +393,7 @@ function render(){
   $('#sig').innerHTML = sig.length ? sig.map(s=>`
     <div class="row">${s.image?`<img src="${esc(s.image)}" alt="">`:''}
       <div class="grow"><h4>${esc(s.titre)}</h4>
-        <div class="meta">${s.magasin?'<span class="badge b-ok">En magasin</span> ':''}${esc(s.marchand||'')} · ${eur(s.prix)}${s.prixRef?` (réf. ${eur(s.prixRef)})`:''} · ${esc(s.publie||'')}</div>
+        <div class="meta">${s.zone?`<span class="badge b-ok">📍 ${esc(s.commune||s.zone)}</span> `:''}${s.magasin?'<span class="badge b-ok">En magasin</span> ':''}<span class="badge b-grey">${esc(s.source||'Dealabs')}</span> ${esc(s.marchand||'')} · ${eur(s.prix)}${s.prixRef?` (réf. ${eur(s.prixRef)})`:''} · ${esc(s.publie||'')}</div>
         <div class="meta">${esc(s.extrait||'')}</div></div>
       <a class="btn" href="${esc(s.url)}" target="_blank" rel="noopener">Voir</a></div>`).join('')
     : '<div class="empty">Aucun signalement « 30 ans » pour le moment. Ils apparaîtront ici dès qu\'un membre de Dealabs en publie un.</div>';
@@ -374,10 +418,106 @@ function render(){
     }).join('');
   }
 
+  renderProche();
+  renderReassorts();
   $('#log').textContent = (S.journal||[]).slice().reverse().join('\n');
 }
 
+// ---------- Près de chez moi
+const CATS = { tous:'Tous', hyper:'Hypermarchés', culture:'Culture & jeux vidéo', jouets:'Jouets', jeux:'Boutiques de jeux', autres:'Autres' };
+const STOCK_LINKS = [
+  [/leclerc/i, 'https://www.e.leclerc/recherche?q=pokemon%2030%20ans'],
+  [/auchan/i, 'https://www.auchan.fr/recherche?text=pokemon+30+ans'],
+  [/carrefour/i, 'https://www.carrefour.fr/s?q=pokemon+30+ans'],
+  [/fnac/i, 'https://www.fnac.com/SearchResult/ResultList.aspx?Search=pokemon%2030%20ans'],
+  [/cultura/i, 'https://www.cultura.com/search/results?search_query=pokemon%2030%20ans'],
+  [/micromania/i, 'https://www.micromania.fr/search?q=pokemon+30+ans'],
+  [/smyths/i, 'https://www.smythstoys.com/fr/fr-fr/search/?text=pokemon%2030'],
+  [/king jouet/i, 'https://www.king-jouet.com/'],
+  [/jou[eé] ?club/i, 'https://www.joueclub.fr/'],
+  [/intermarch/i, 'https://www.intermarche.com/'],
+  [/hyper u|super u|\bu express/i, 'https://www.coursesu.com/'],
+  [/cora/i, 'https://www.cora.fr/'],
+];
+let zoneSel = store.get('pv-zone', null), catSel = 'tous';
+function renderProche(){
+  const zones = (S.magasins && S.magasins.zones) || [];
+  if (!zones.length) { $('#stores').innerHTML = '<div class="empty">Liste des magasins pas encore générée.</div>'; return; }
+  if (!zones.some(z=>z.id===zoneSel)) zoneSel = zones[0].id;
+  const z = zones.find(z=>z.id===zoneSel);
+  $('#zone-chips').innerHTML = zones.map(x=>`<button class="chip ${x.id===zoneSel?'on':''}" data-zone="${esc(x.id)}">${esc(x.nom)} · ${x.magasins.length}</button>`).join('');
+  const counts = {}; z.magasins.forEach(m=>counts[m.categorie]=(counts[m.categorie]||0)+1);
+  $('#cat-chips').innerHTML = Object.entries(CATS).filter(([k])=>k==='tous'||counts[k]).map(([k,v])=>`<button class="chip ${k===catSel?'on':''}" data-cat="${k}">${v}${k!=='tous'?' · '+counts[k]:''}</button>`).join('');
+  const sig = (S.signalements||[]).filter(s=>s.zone===z.nom);
+  $('#sig-proche').innerHTML = sig.length ? sig.slice(0,10).map(s=>`
+    <div class="row"><div class="grow"><h4>📍 ${esc(s.titre)}</h4><div class="meta"><span class="badge b-ok">${esc(s.commune||'')}</span> ${esc(s.marchand||'')} · ${eur(s.prix)} · ${esc(s.source||'')} · ${fmtDate(s.vu)}</div></div>
+    <a class="btn primary" href="${esc(s.url)}" target="_blank" rel="noopener">Voir</a></div>`).join('')
+    : '<div class="meta">Aucun signalement récent dans cette zone.</div>';
+  const list = z.magasins.filter(m=>catSel==='tous'||m.categorie===catSel);
+  $('#stores').innerHTML = list.map(m=>{
+    const name = m.nom + ' ' + (m.ville||'');
+    const stock = (STOCK_LINKS.find(([rx])=>rx.test(m.nom))||[])[1];
+    const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`${m.nom} ${m.adresse||''} ${m.ville||''}`.trim()) ;
+    const dir = `https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lon}`;
+    return `<div class="row"><div class="grow">
+      <h4>${esc(m.nom)} <span class="meta">· ${String(m.distanceKm).replace('.',',')} km</span></h4>
+      <div class="meta"><span class="badge b-grey">${esc(CATS[m.categorie]||m.categorie)}</span> ${esc([m.adresse,m.ville].filter(Boolean).join(', '))}</div>
+      ${m.horaires?`<div class="meta">🕒 ${esc(m.horaires)}</div>`:''}
+      <div class="store-actions">
+        <a class="btn" href="${dir}" target="_blank" rel="noopener">Itinéraire</a>
+        <a class="btn" href="${maps}" target="_blank" rel="noopener">Fiche Maps</a>
+        ${stock?`<a class="btn primary" href="${stock}" target="_blank" rel="noopener">Vérifier le stock</a>`:''}
+        ${m.site?`<a class="btn" href="${esc(m.site)}" target="_blank" rel="noopener">Site</a>`:''}
+        ${m.telephone?`<a class="btn" href="tel:${esc(m.telephone.replace(/\s/g,''))}">Appeler</a>`:''}
+      </div></div></div>`;
+  }).join('') || '<div class="empty">Aucun magasin dans cette catégorie.</div>';
+}
+document.addEventListener('click', e=>{
+  const zb = e.target.closest('[data-zone]'); if (zb) { zoneSel = zb.dataset.zone; store.set('pv-zone', zoneSel); catSel='tous'; renderProche(); }
+  const cb = e.target.closest('[data-cat]'); if (cb) { catSel = cb.dataset.cat; renderProche(); }
+});
+
+// ---------- Réassorts
+const JOURS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+const JOURS_LONG = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+function renderReassorts(){
+  const H = (S.historique||[]).filter(h=>h && h.date);
+  $('#c-reassorts').textContent = H.length;
+  if (!H.length) {
+    $('#heatmap').innerHTML = '<div class="meta">Pas encore de réassort enregistré. Les retours en stock apparaîtront ici au fil des analyses.</div>';
+    $('#patterns').innerHTML = ''; $('#history').innerHTML = ''; return;
+  }
+  // carte de chaleur jour x tranche de 2 h
+  const grid = Array.from({length:7},()=>Array(12).fill(0));
+  H.forEach(h=>{ const d=new Date(h.date); grid[d.getDay()][Math.floor(d.getHours()/2)]++; });
+  const max = Math.max(1, ...grid.flat());
+  const order = [1,2,3,4,5,6,0];
+  let html = '<div class="heat"><div></div>' + Array.from({length:12},(_,i)=>`<div>${i*2}h</div>`).join('');
+  order.forEach(d=>{ html += `<div>${JOURS[d]}</div>` + grid[d].map(v=>`<div class="c" title="${v} réassort(s)" style="${v?`background:rgba(227,53,13,${(0.15+0.85*v/max).toFixed(2)});color:#fff`:''}">${v||''}</div>`).join(''); });
+  $('#heatmap').innerHTML = html + '</div>';
+  // par boutique
+  const by = {};
+  H.forEach(h=>{ (by[h.sourceLabel] = by[h.sourceLabel] || []).push(h); });
+  $('#patterns').innerHTML = Object.entries(by).sort((a,b)=>b[1].length-a[1].length).map(([src,list])=>{
+    const dCount = Array(7).fill(0), hCount = Array(12).fill(0);
+    list.forEach(h=>{ const d=new Date(h.date); dCount[d.getDay()]++; hCount[Math.floor(d.getHours()/2)]++; });
+    const bestD = dCount.indexOf(Math.max(...dCount)), bestH = hCount.indexOf(Math.max(...hCount));
+    const last = list.map(h=>h.date).sort().pop();
+    const okN = list.filter(h=>h.statut==='prix-magasin').length;
+    const habit = list.length >= 3 ? `souvent le <b>${JOURS_LONG[bestD]}</b>, entre <b>${bestH*2}h et ${bestH*2+2}h</b>` : 'pas encore assez de données';
+    return `<div class="pat"><div><b>${esc(src)}</b><div class="meta">${list.length} réassort(s)${okN?` · ${okN} au prix magasin`:''} · dernier ${fmtDate(last)}</div></div><div class="meta" style="text-align:right">${habit}</div></div>`;
+  }).join('');
+  // derniers
+  $('#history').innerHTML = H.slice().reverse().slice(0,40).map(h=>{
+    const [lbl, cls] = STATUTS[h.statut] || [h.statut,'b-grey'];
+    return `<div class="row"><div class="grow"><h4>${esc(h.titre)}</h4>
+      <div class="meta"><span class="badge ${cls}">${lbl}</span> ${h.type==='nouveau'?'Nouvelle fiche':'Retour en stock'} · ${esc(h.sourceLabel)} · ${eur(h.prix)} · ${fmtDate(h.date)}</div></div>
+      <a class="btn" href="${esc(h.url)}" target="_blank" rel="noopener">Voir</a></div>`;
+  }).join('');
+}
+
 function badgeAlert(a){
+  if (a.type==='proche') return '<span class="badge b-ok">📍 Près de chez toi</span>';
   if (a.type==='magasin') return '<span class="badge b-ok">En magasin</span>';
   if (a.type==='prix-magasin') return '<span class="badge b-ok">Prix magasin</span>';
   if (a.type==='signalement') return '<span class="badge b-info">Signalement</span>';
@@ -404,6 +544,9 @@ function card(p){
 function setFilter(f){ filter=f; store.set('pv-filter',f); render(); }
 
 function lines(id){ return $(id).value.split('\n').map(s=>s.trim()).filter(Boolean); }
+// boutiques : "https://..." ou { url, exigerPokemon } <-> "https://... | pokemon"
+function shopsToText(list){ return (list||[]).map(b=>typeof b==='string' ? b : (b.url + (b.exigerPokemon?' | pokemon':''))).join('\n'); }
+function textToShops(id){ return lines(id).map(l=>{ const [url,flag]=l.split('|').map(x=>x.trim()); return /pok/i.test(flag||'') ? {url, exigerPokemon:true} : url; }); }
 
 function fillSettings(){
   const c = S.config; if(!c) return;
@@ -413,7 +556,9 @@ function fillSettings(){
   $('#r-ntfys').value = c.notifications.ntfyServeur||'https://ntfy.sh'; $('#r-disc').value = c.notifications.discordWebhook||'';
   const s = c.sources;
   $('#s-auchan').checked = !!s.auchan.actif; $('#s-auchan-q').value = (s.auchan.requetes||[]).join('\n');
-  $('#s-shop').checked = !!s.shopify.actif; $('#s-shop-b').value = (s.shopify.boutiques||[]).join('\n'); $('#s-shop-q').value = (s.shopify.requetes||[]).join('\n');
+  $('#s-shop').checked = !!s.shopify.actif; $('#s-shop-b').value = shopsToText(s.shopify.boutiques); $('#s-shop-q').value = (s.shopify.requetes||[]).join('\n');
+  const w = s.woocommerce || {actif:false, boutiques:[], requetes:[]};
+  $('#s-woo').checked = !!w.actif; $('#s-woo-b').value = shopsToText(w.boutiques); $('#s-woo-q').value = (w.requetes||[]).join('\n');
   $('#s-deal').checked = !!s.dealabs.actif; $('#s-deal-f').value = (s.dealabs.flux||[]).join('\n');
   $('#s-pages').checked = !!s.surveillance.actif;
   $('#s-pages-l').value = (s.surveillance.pages||[]).map(p=>[p.url,p.nom||'',p.prixRef||''].join(' | ').replace(/( \| )+$/,'')).join('\n');
@@ -426,7 +571,8 @@ function collectSettings(){
   c.alerterSansReference = $('#r-sansref').checked; c.exclure = $('#r-excl').value.trim();
   c.notifications = { windows: $('#r-win').checked, fenetre: $('#r-fen').checked, ntfyDepuisPC: $('#r-ntfypc').checked, ntfyServeur: $('#r-ntfys').value.trim()||'https://ntfy.sh', ntfyTopic: $('#r-ntfy').value.trim(), discordWebhook: $('#r-disc').value.trim() };
   c.sources.auchan = { actif: $('#s-auchan').checked, requetes: lines('#s-auchan-q') };
-  c.sources.shopify = { actif: $('#s-shop').checked, boutiques: lines('#s-shop-b'), requetes: lines('#s-shop-q') };
+  c.sources.shopify = { actif: $('#s-shop').checked, boutiques: textToShops('#s-shop-b'), requetes: lines('#s-shop-q') };
+  c.sources.woocommerce = { actif: $('#s-woo').checked, boutiques: textToShops('#s-woo-b'), requetes: lines('#s-woo-q') };
   c.sources.dealabs = { actif: $('#s-deal').checked, flux: lines('#s-deal-f') };
   c.sources.surveillance = { actif: $('#s-pages').checked, pages: lines('#s-pages-l').map(l=>{ const [url,nom,prix]=l.split('|').map(x=>(x||'').trim()); const o={url}; if(nom) o.nom=nom; if(prix) o.prixRef=Number(prix.replace(',','.')); return o; }) };
   return c;

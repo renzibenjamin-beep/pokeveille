@@ -88,7 +88,27 @@ function Get-Web([string]$Url) {
     return [pscustomobject]@{ Status = [int]$r.StatusCode; Text = $text }
 }
 
-function Pause-Polite { Start-Sleep -Milliseconds (Get-Random -Minimum 800 -Maximum 1800) }
+# Pause entre deux requetes ; si le tableau de bord local tourne, on en profite pour lui repondre
+# (sinon il resterait bloque pendant toute l'analyse).
+function Pause-Polite {
+    $ms = Get-Random -Minimum 400 -Maximum 900
+    if (-not $Script:Listener) { Start-Sleep -Milliseconds $ms; return }
+    $end = (Get-Date).AddMilliseconds($ms)
+    do {
+        $left = [int][math]::Max(1, ($end - (Get-Date)).TotalMilliseconds)
+        if ($Script:CtxTask.Wait($left)) {
+            $ctx = $Script:CtxTask.Result
+            $Script:CtxTask = $Script:Listener.GetContextAsync()
+            Handle-Request $ctx
+        }
+    } while ((Get-Date) -lt $end)
+}
+
+# Entree de boutique : "https://..." ou { url, exigerPokemon }
+function Get-ShopEntry($raw) {
+    if ($raw -is [string]) { return [pscustomobject]@{ url = $raw.TrimEnd('/'); exigerPokemon = $false } }
+    return [pscustomobject]@{ url = ([string]$raw.url).TrimEnd('/'); exigerPokemon = [bool]$raw.exigerPokemon }
+}
 
 # ---------------------------------------------------------------- etat
 $Script:Config = $null
@@ -102,6 +122,10 @@ $Script:NextScan = Get-Date
 $Script:Scanning = $false
 $Script:ScanRequested = $false
 $Script:AlertSeq = 0
+$Script:History = New-Object System.Collections.ArrayList   # reassorts : retours en stock et nouvelles fiches
+$Script:SeenSources = @{}                                     # sources deja analysees au moins une fois
+$Script:Magasins = $null                                      # magasins.json : zones proches + mots-cles des communes
+$MagasinsPath = Join-Path $Root 'magasins.json'
 
 function Load-All {
     $Script:Config = Read-Json $ConfigPath
@@ -111,6 +135,29 @@ function Load-All {
     if ($env:DISCORD_WEBHOOK) { $Script:Config.notifications | Add-Member -NotePropertyName discordWebhook -NotePropertyValue $env:DISCORD_WEBHOOK -Force }
     $Script:Catalogue = Read-Json $CataloguePath
     if (-not $Script:Catalogue) { $Script:Catalogue = [pscustomobject]@{ produits = @() } }
+    $Script:Magasins = Read-Json $MagasinsPath
+}
+
+# Signalement qui mentionne une commune des zones proches (magasins.json) -> nom de la zone, sinon $null
+function Find-Zone([string]$text) {
+    if (-not $Script:Magasins) { return $null }
+    $n = ' ' + ((Normalize $text) -replace '[^a-z0-9]+', ' ') + ' '
+    foreach ($z in @($Script:Magasins.zones)) {
+        foreach ($c in @($z.communes)) {
+            $k = ' ' + ((Normalize $c) -replace '[^a-z0-9]+', ' ').Trim() + ' '
+            if ($k.Length -gt 4 -and $n.Contains($k)) { return [pscustomobject]@{ zone = $z.nom; commune = $c } }
+        }
+    }
+    return $null
+}
+
+function Add-History($item, [string]$kind) {
+    [void]$Script:History.Add([pscustomobject]@{
+        date = (Get-Date).ToString('s'); type = $kind; source = $item.source; sourceLabel = $item.sourceLabel
+        titre = $item.titre; url = $item.url; prix = $item.prix; prixRef = $item.prixRef; statut = $item.statut
+        catalogueNom = $item.catalogueNom
+    })
+    while ($Script:History.Count -gt 2000) { $Script:History.RemoveAt(0) }
 }
 
 function Load-State {
@@ -120,6 +167,8 @@ function Load-State {
     foreach ($d in @($st.deals)) { if ($d -and $d.key) { $Script:Deals[$d.key] = $d } }
     foreach ($a in @($st.alerts)) { if ($a) { [void]$Script:Alerts.Add($a); if ($a.id -gt $Script:AlertSeq) { $Script:AlertSeq = [int]$a.id } } }
     $Script:LastScan = $st.lastScan
+    foreach ($h in @($st.historique)) { if ($h) { [void]$Script:History.Add($h) } }
+    foreach ($s in @($st.sourcesVues)) { if ($s) { $Script:SeenSources[[string]$s] = $true } }
 }
 
 function Save-State {
@@ -128,6 +177,8 @@ function Save-State {
         items    = @($Script:Items.Values)
         deals    = @($Script:Deals.Values)
         alerts   = @($Script:Alerts)
+        historique  = @($Script:History)
+        sourcesVues = @($Script:SeenSources.Keys)
     }
     Write-Json $StatePath $obj
 }
@@ -210,11 +261,16 @@ function Send-Popup([string]$title, [string]$msg, [string]$url) {
     } catch { Write-Log "Fenetre d'alerte impossible: $($_.Exception.Message)" }
 }
 
-function Send-Ntfy([string]$title, [string]$msg, [string]$url, [int]$prio) {
+# Quand GitHub envoie deja les alertes (telephone, Discord), le PC s'abstient pour eviter les doublons.
+# $force : utilise par le bouton "notification de test" du tableau de bord.
+function Test-PcMuted([bool]$force) {
+    return ($OnWindows -and -not $force -and $Script:Config.notifications.ntfyDepuisPC -eq $false)
+}
+
+function Send-Ntfy([string]$title, [string]$msg, [string]$url, [int]$prio, [bool]$force = $false) {
     $n = $Script:Config.notifications
     if (-not $n.ntfyTopic) { return }
-    # quand GitHub envoie deja les alertes au telephone, le PC peut s'abstenir (evite les doublons)
-    if ($OnWindows -and $n.ntfyDepuisPC -eq $false) { return }
+    if (Test-PcMuted $force) { return }
     $server = if ($n.ntfyServeur) { ([string]$n.ntfyServeur).TrimEnd('/') } else { 'https://ntfy.sh' }
     $p = [ordered]@{ topic = [string]$n.ntfyTopic; title = $title; message = $msg; priority = $prio; tags = @('rotating_light') }
     $actions = @()
@@ -231,29 +287,40 @@ function Send-Ntfy([string]$title, [string]$msg, [string]$url, [int]$prio) {
     } catch { Write-Log "ntfy en echec: $($_.Exception.Message)" }
 }
 
-function Send-Discord([string]$title, [string]$msg, [string]$url) {
+function Send-Discord([string]$title, [string]$msg, [string]$url, [string]$image, [int]$prio, [bool]$force = $false) {
     $hook = [string]$Script:Config.notifications.discordWebhook
     if (-not $hook) { return }
-    $content = "**$title**`n$msg"
-    if ($url) { $content += "`n$url" }
+    if (Test-PcMuted $force) { return }
+    # message "embed" : titre cliquable, image du produit, couleur selon l'importance
+    $color = if ($prio -ge 5) { 1343562 } elseif ($prio -eq 4) { 2056127 } else { 9079434 }   # vert / bleu / gris
+    $embed = [ordered]@{ title = $(if ($title.Length -gt 250) { $title.Substring(0, 250) } else { $title }); description = $msg; color = $color }
+    if ($url -match '^https?://') { $embed.url = $url }
+    if ($image -match '^https?://') { $embed.thumbnail = @{ url = $image } }
+    $links = @()
+    if ($url -match '^https?://') { $links += "[Ouvrir la fiche]($url)" }
+    if ($env:TABLEAU_URL) { $links += "[Tableau de bord]($($env:TABLEAU_URL))" }
+    if ($links.Count -gt 0) { $embed.description = $msg + "`n`n" + ($links -join '  |  ') }
+    $embed.footer = @{ text = 'PokeVeille 30 ans' }
+    $embed.timestamp = (Get-Date).ToUniversalTime().ToString('o')
+    $payload = [ordered]@{ username = 'PokeVeille'; embeds = @($embed) }
     try {
-        $bytes = $Utf8.GetBytes((ConvertTo-Json -InputObject @{ content = $content }))
+        $bytes = $Utf8.GetBytes((ConvertTo-Json -InputObject $payload -Depth 6))
         Invoke-RestMethod -Uri $hook -Method Post -Body $bytes -ContentType 'application/json; charset=utf-8' -TimeoutSec 15 | Out-Null
     } catch { Write-Log "Discord en echec: $($_.Exception.Message)" }
 }
 
-function Notify-All([string]$title, [string]$msg, [string]$url, [int]$prio = 4) {
+function Notify-All([string]$title, [string]$msg, [string]$url, [int]$prio = 4, [string]$image = '', [bool]$force = $false) {
     if ($Script:Config.notifications.windows) { Send-Toast $title $msg $url }
     if ($Script:Config.notifications.fenetre -ne $false) { Send-Popup $title $msg $url }
-    Send-Ntfy $title $msg $url $prio
-    Send-Discord $title $msg $url
+    Send-Ntfy $title $msg $url $prio $force
+    Send-Discord $title $msg $url $image $prio $force
 }
 
 function Dispatch-Alerts($newAlerts) {
     $list = @($newAlerts)
     if ($list.Count -eq 0) { return }
     if ($list.Count -le 3) {
-        foreach ($a in $list) { Notify-All $a.titre $a.message $a.url $(if ($a.type -eq 'prix-magasin' -or $a.magasin) { 5 } else { 4 }) }
+        foreach ($a in $list) { Notify-All $a.titre $a.message $a.url $(if ($a.type -eq 'prix-magasin' -or $a.magasin) { 5 } else { 4 }) ([string]$a.image) }
     } else {
         $names = ($list | Select-Object -First 5 | ForEach-Object { '- ' + $_.titre + ' : ' + $_.message }) -join "`n"
         $link = if ($OnWindows) { "http://localhost:$Port/" } else { $list[0].url }
@@ -280,6 +347,10 @@ function Upsert-Item($src, $srcLabel, $id, $title, $url, $image, $price, $inStoc
     }
     $Script:Items[$key] = $item
 
+    # historique des reassorts : retour en stock, ou nouvelle fiche deja en stock sur une source connue
+    if ($inStock -and $prev -and -not $prev.enStock) { Add-History $item 'retour' }
+    elseif ($inStock -and -not $prev -and $Script:SeenSources.ContainsKey($src)) { Add-History $item 'nouveau' }
+
     $wantAlert = $false
     if ($verdict -eq 'prix-magasin' -and $prevVerdict -ne 'prix-magasin') { $wantAlert = $true }
     if ($verdict -eq 'dispo-sans-ref' -and $prevVerdict -notin @('dispo-sans-ref', 'prix-magasin') -and $Script:Config.alerterSansReference) { $wantAlert = $true }
@@ -292,6 +363,7 @@ function Upsert-Item($src, $srcLabel, $id, $title, $url, $image, $price, $inStoc
 }
 
 function Mark-Missing($src, $seenKeys) {
+    $Script:SeenSources[$src] = $true
     foreach ($k in @($Script:Items.Keys)) {
         $it = $Script:Items[$k]
         if ($it.source -eq $src -and -not $seenKeys.Contains($k) -and $it.enStock) {
@@ -338,19 +410,22 @@ function Scan-Auchan($newAlerts) {
 function Scan-Shopify($newAlerts) {
     $cfg = $Script:Config.sources.shopify
     $total = 0
+    $errors = @()
     foreach ($shopRaw in @($cfg.boutiques)) {
-        $shop = ([string]$shopRaw).TrimEnd('/')
+        $entry = Get-ShopEntry $shopRaw
+        $shop = $entry.url
         if (-not $shop) { continue }
         $hostName = ([uri]$shop).Host -replace '^www\.', ''
         $src = "shopify:$hostName"
         $seen = New-Object 'System.Collections.Generic.HashSet[string]'
+        try {
         foreach ($q in @($cfg.requetes)) {
             $u = "$shop/search/suggest.json?q=" + [uri]::EscapeDataString($q) + '&resources[type]=product&resources[limit]=10&resources[options][unavailable_products]=last'
             $res = Get-Web $u
             $json = $res.Text | ConvertFrom-Json
             foreach ($p in @($json.resources.results.products)) {
                 if (-not $p) { continue }
-                if (-not (Is-Relevant $p.title $false)) { continue }
+                if (-not (Is-Relevant $p.title $entry.exigerPokemon)) { continue }
                 $id = [string]$p.id
                 if ($seen.Contains("$src|$id")) { continue }
                 $img = [string]$p.image
@@ -364,16 +439,67 @@ function Scan-Shopify($newAlerts) {
         }
         Mark-Missing $src $seen
         $total += $seen.Count
+        } catch { $errors += "$hostName ($($_.Exception.Message))"; Write-Log "[Shopify] $hostName en echec : $($_.Exception.Message)" }
     }
-    return "$total produits 30 ans"
+    $n = @($cfg.boutiques).Count
+    $txt = "$total produits 30 ans, $($n - $errors.Count)/$n boutiques"
+    if ($errors.Count -gt 0 -and $errors.Count -eq $n) { throw "toutes les boutiques en echec" }
+    return $txt
+}
+
+# Boutiques WooCommerce (API publique "Store API" : /wp-json/wc/store/v1/products)
+function Scan-Woo($newAlerts) {
+    $cfg = $Script:Config.sources.woocommerce
+    $total = 0
+    $errors = @()
+    foreach ($shopRaw in @($cfg.boutiques)) {
+        $entry = Get-ShopEntry $shopRaw
+        $shop = $entry.url
+        if (-not $shop) { continue }
+        $hostName = ([uri]$shop).Host -replace '^www\.', ''
+        $src = "woo:$hostName"
+        $seen = New-Object 'System.Collections.Generic.HashSet[string]'
+        try {
+            foreach ($q in @($cfg.requetes)) {
+                $res = Get-Web ("$shop/wp-json/wc/store/v1/products?per_page=50&search=" + [uri]::EscapeDataString($q))
+                # (PS 5.1 ne deroule pas les tableaux JSON dans le pipeline : passer par une variable)
+                $arr = $res.Text | ConvertFrom-Json
+                foreach ($p in $arr) {
+                    if (-not $p -or -not $p.id) { continue }
+                    $title = Clean-Html ([string]$p.name)
+                    if (-not (Is-Relevant $title $entry.exigerPokemon)) { continue }
+                    $id = [string]$p.id
+                    if ($seen.Contains("$src|$id")) { continue }
+                    $price = $null
+                    if ($p.prices -and $p.prices.price) {
+                        $minor = if ($null -ne $p.prices.currency_minor_unit) { [int]$p.prices.currency_minor_unit } else { 2 }
+                        $price = [math]::Round(([double]$p.prices.price) / [math]::Pow(10, $minor), 2)
+                    }
+                    $img = if ($p.images -and @($p.images).Count -gt 0) { [string]@($p.images)[0].src } else { '' }
+                    $inStock = [bool]$p.is_in_stock -and [bool]$p.is_purchasable
+                    Upsert-Item $src $hostName $id $title ([string]$p.permalink) $img $price $inStock $hostName $null $newAlerts
+                    [void]$seen.Add("$src|$id")
+                }
+                Pause-Polite
+            }
+            Mark-Missing $src $seen
+            $total += $seen.Count
+        } catch { $errors += $hostName; Write-Log "[WooCommerce] $hostName en echec : $($_.Exception.Message)" }
+    }
+    $n = @($cfg.boutiques).Count
+    if ($errors.Count -gt 0 -and $errors.Count -eq $n) { throw "toutes les boutiques en echec" }
+    return "$total produits 30 ans, $($n - $errors.Count)/$n boutiques"
 }
 
 function Scan-Dealabs($newAlerts) {
     $cfg = $Script:Config.sources.dealabs
     $n = 0
+    $errors = @()
     foreach ($feed in @($cfg.flux)) {
         if (-not $feed) { continue }
-        $res = Get-Web ([string]$feed)
+        $feedHost = ([uri][string]$feed).Host -replace '^www\.', ''
+        $feedLabel = if ($feedHost -like '*dealabs*') { 'Dealabs' } elseif ($feedHost -like '*crocodeal*') { 'Le Crocodeal' } else { $feedHost }
+        try { $res = Get-Web ([string]$feed) } catch { $errors += $feedHost; Write-Log "[Signalements] $feed en echec : $($_.Exception.Message)"; continue }
         foreach ($m in [regex]::Matches($res.Text, '(?s)<item>(.*?)</item>')) {
             $x = $m.Groups[1].Value
             $title = Clean-Html (([regex]::Match($x, '(?s)<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>')).Groups[1].Value)
@@ -389,27 +515,34 @@ function Scan-Dealabs($newAlerts) {
             $price = if ($merchM.Success) { Parse-Price $merchM.Groups[2].Value } else { $null }
             $img = ([regex]::Match($x, '<media:content[^>]*url="([^"]+)"')).Groups[1].Value
             $pub = ([regex]::Match($x, '<pubDate>([^<]+)</pubDate>')).Groups[1].Value
-            $magasin = (Normalize ($title + ' ' + $desc.Substring(0, [math]::Min(400, $desc.Length)))) -match $RxMagasin
+            $head = $title + ' ' + $merchant + ' ' + $desc.Substring(0, [math]::Min(600, $desc.Length))
+            $magasin = (Normalize $head) -match $RxMagasin
+            $zone = Find-Zone $head
             $cat = Match-Catalogue $title
             $prixRef = if ($cat) { [double]$cat.prixRef } else { $null }
             $d = [pscustomobject]@{
                 key = $key; titre = $title; url = $link; image = $img; marchand = $merchant; prix = $price; prixRef = $prixRef
                 catalogueNom = $(if ($cat) { $cat.nom } else { $null }); magasin = $magasin; publie = $pub; vu = (Get-Date).ToString('s')
-                extrait = $desc.Substring(0, [math]::Min(220, $desc.Length))
+                extrait = $desc.Substring(0, [math]::Min(220, $desc.Length)); source = $feedLabel
+                zone = $(if ($zone) { $zone.zone } else { $null }); commune = $(if ($zone) { $zone.commune } else { $null })
             }
             $Script:Deals[$key] = $d
             $pTxt = if ($null -ne $price) { ('{0:N2} EUR' -f $price) } else { 'prix non indique' }
-            $msg = $(if ($magasin) { 'EN MAGASIN - ' } else { '' }) + "Signalement Dealabs : $merchant $pTxt"
-            [void]$newAlerts.Add((Add-Alert $(if ($magasin) { 'magasin' } else { 'signalement' }) $title $msg $link $img $magasin))
+            $prefix = ''
+            if ($zone) { $prefix = "PRES DE CHEZ TOI ($($zone.commune)) - " } elseif ($magasin) { $prefix = 'EN MAGASIN - ' }
+            $msg = $prefix + "Signalement $feedLabel : $merchant $pTxt"
+            $type = if ($zone) { 'proche' } elseif ($magasin) { 'magasin' } else { 'signalement' }
+            [void]$newAlerts.Add((Add-Alert $type $title $msg $link $img ([bool]($magasin -or $zone))))
         }
         Pause-Polite
     }
+    if ($errors.Count -gt 0 -and $errors.Count -eq @($cfg.flux).Count) { throw "tous les flux en echec" }
     # garder les 200 plus recents
     if ($Script:Deals.Count -gt 200) {
         $old = $Script:Deals.Values | Sort-Object vu | Select-Object -First ($Script:Deals.Count - 200)
         foreach ($o in $old) { $Script:Deals.Remove($o.key) }
     }
-    return "$n signalements 30 ans dans le flux"
+    return "$n signalements 30 ans dans $(@($cfg.flux).Count - $errors.Count)/$(@($cfg.flux).Count) flux"
 }
 
 function Scan-Pages($newAlerts) {
@@ -482,8 +615,9 @@ function Run-Scan {
         $newAlerts = New-Object System.Collections.ArrayList
         $plan = @(
             @{ name = 'auchan';       label = 'Auchan';                 fn = { param($a) Scan-Auchan $a } },
-            @{ name = 'shopify';      label = 'Boutiques Shopify';      fn = { param($a) Scan-Shopify $a } },
-            @{ name = 'dealabs';      label = 'Dealabs (signalements)'; fn = { param($a) Scan-Dealabs $a } },
+            @{ name = 'shopify';      label = 'Boutiques JCC (Shopify)';     fn = { param($a) Scan-Shopify $a } },
+            @{ name = 'woocommerce';  label = 'Boutiques JCC (WooCommerce)'; fn = { param($a) Scan-Woo $a } },
+            @{ name = 'dealabs';      label = 'Signalements';                fn = { param($a) Scan-Dealabs $a } },
             @{ name = 'surveillance'; label = 'Pages surveillees';      fn = { param($a) Scan-Pages $a } }
         )
         foreach ($s in $plan) {
@@ -553,6 +687,8 @@ function Handle-Request($ctx) {
                     sources = $Script:Sources
                     config = $Script:Config
                     catalogue = $Script:Catalogue
+                    historique = @($Script:History)
+                    magasins = $Script:Magasins
                     journal = @($Script:Logs | Select-Object -Last 60)
                 }); break
             }
@@ -579,7 +715,7 @@ function Handle-Request($ctx) {
                 Send-JsonResponse $ctx @{ ok = $true }; break
             }
             '^POST /api/test-notification$' {
-                Notify-All 'PokeVeille : test' 'Si vous lisez ceci, les alertes fonctionnent.' "http://localhost:$Port/" 3
+                Notify-All 'PokeVeille : test' 'Si vous lisez ceci, les alertes fonctionnent.' "http://localhost:$Port/" 3 '' $true
                 Send-JsonResponse $ctx @{ ok = $true }; break
             }
             '^POST /api/effacer-alertes$' {
@@ -600,7 +736,7 @@ $Script:ToastSetting = Get-ToastSetting
 
 if ($TestNotification) {
     $where = if ($OnWindows) { 'votre PC' } else { 'le serveur' }
-    Notify-All 'PokeVeille : test' "Les alertes envoyees par $where fonctionnent." $null 3
+    Notify-All 'PokeVeille : test' "Les alertes envoyees par $where fonctionnent." $null 3 '' $true
     Write-Log "Notification de test envoyee"
     return
 }
@@ -610,14 +746,16 @@ function Export-Etat([string]$path) {
     $obj = [ordered]@{
         statique = $true
         derniereAnalyse = $Script:LastScan
-        prochaineAnalyse = (Get-Date).AddMinutes(10).ToString('s')
+        prochaineAnalyse = (Get-Date).AddMinutes(5).ToString('s')
         analyseEnCours = $false
         produits = @($Script:Items.Values)
         signalements = @($Script:Deals.Values | Sort-Object vu -Descending)
         alertes = @($Script:Alerts | Select-Object -Last 100)
         sources = $Script:Sources
-        config = [ordered]@{ tolerancePourcent = $c.tolerancePourcent; intervalleMinutes = 10 }
+        config = [ordered]@{ tolerancePourcent = $c.tolerancePourcent; intervalleMinutes = 5 }
         catalogue = $Script:Catalogue
+        historique = @($Script:History)
+        magasins = $Script:Magasins
     }
     $dir = Split-Path -Parent $path
     if ($dir -and -not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir | Out-Null }
@@ -638,12 +776,14 @@ try { $Host.UI.RawUI.WindowTitle = "PokeVeille 30 ans - http://localhost:$Port" 
 Write-Log "PokeVeille demarre sur http://localhost:$Port/  (laisser cette fenetre ouverte, Ctrl+C pour arreter)"
 if (-not $NoBrowser) { Start-Process "http://localhost:$Port/" }
 
-$ctxTask = $listener.GetContextAsync()
+$Script:Listener = $listener
+$Script:CtxTask = $listener.GetContextAsync()
 try {
     while ($listener.IsListening) {
-        if ($ctxTask.Wait(400)) {
-            Handle-Request $ctxTask.Result
-            $ctxTask = $listener.GetContextAsync()
+        if ($Script:CtxTask.Wait(400)) {
+            $ctx = $Script:CtxTask.Result
+            $Script:CtxTask = $listener.GetContextAsync()
+            Handle-Request $ctx
         }
         if ($Script:ScanRequested -or (Get-Date) -ge $Script:NextScan) {
             $Script:ScanRequested = $false
