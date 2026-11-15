@@ -1,0 +1,51 @@
+{
+    "intervalleMinutes":  5,
+    "tolerancePourcent":  5,
+    "alerterSansReference":  false,
+    "exclure":  "japonais|\\bjap\\b|japanese|\\bjp\\b|anglais|english|\\ben\\b|coreen|chinois|\\bm6a\\b",
+    "notifications":  {
+                          "windows":  false,
+                          "fenetre":  false,
+                          "ntfyServeur":  "https://ntfy.sh",
+                          "ntfyTopic":  "",
+                          "discordWebhook":  ""
+                      },
+    "sources":  {
+                    "auchan":  {
+                                   "actif":  true,
+                                   "requetes":  [
+                                                    "pokemon 30 ans",
+                                                    "pokemon 30e anniversaire",
+                                                    "pokemon 30th celebration"
+                                                ]
+                               },
+                    "shopify":  {
+                                    "actif":  true,
+                                    "boutiques":  [
+                                                      "https://www.lorenzone.fr"
+                                                  ],
+                                    "requetes":  [
+                                                     "30 ans",
+                                                     "30e anniversaire",
+                                                     "30th celebration",
+                                                     "dresseur elite 30",
+                                                     "ultra premium 30",
+                                                     "mini tin 30",
+                                                     "deck combat 30",
+                                                     "booster 30 ans"
+                                                 ]
+                                },
+                    "dealabs":  {
+                                    "actif":  true,
+                                    "flux":  [
+                                                 "https://www.dealabs.com/rss/groupe/pokemon"
+                                             ]
+                                },
+                    "surveillance":  {
+                                         "actif":  true,
+                                         "pages":  [
+
+                                                   ]
+                                     }
+                }
+}
