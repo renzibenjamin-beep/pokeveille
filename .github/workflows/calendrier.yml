@@ -1,0 +1,38 @@
+name: Calendrier des sorties
+
+# Relit chaque matin les calendriers publics (Pokekalos, Le Booster) et met a jour sorties.json :
+# nouvelles annonces ajoutees et surveillees, dates modifiees. L'analyse suivante envoie les alertes.
+on:
+  schedule:
+    - cron: '41 4 * * *'   # chaque jour vers 5 h 40 / 6 h 40 (heure de Paris)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: calendrier
+  cancel-in-progress: false
+
+jobs:
+  calendrier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TZ: Europe/Paris
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Mettre a jour le calendrier
+        run: pwsh -NoProfile -File outils/maj-sorties.ps1
+
+      - name: Enregistrer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sorties.json
+          if ! git diff --cached --quiet; then
+            git commit -q -m "Calendrier des sorties $(date +%F)"
+            git pull -q --rebase origin main
+            git push -q origin main
+          fi

@@ -170,7 +170,8 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
     <div class="panel" id="next-release"></div>
     <div class="panel">
       <h2>Calendrier des sorties JCC Pokémon (France)</h2>
-      <p class="hint" style="margin:0">Les produits marqués « Surveillé » sont recherchés dans les boutiques et les signalements, pour attraper les précommandes et les réassorts au prix public. Tu reçois un rappel la veille au soir et le matin de chaque sortie. Les dates non officielles (revendeurs, PokéCardex, Pokékalos) peuvent bouger.</p>
+      <p class="hint" style="margin:0">Mis à jour automatiquement chaque matin à partir de Pokékalos et Le Booster : les nouvelles annonces sont ajoutées et surveillées, les dates modifiées corrigées, et tu reçois une alerte à chaque changement. Les produits « Surveillé » sont recherchés dans les boutiques et les signalements (précommandes, réassorts au prix public). Rappel la veille au soir et le matin de chaque sortie. Les dates non officielles peuvent bouger.</p>
+      <p class="hint" id="cal-maj"></p>
     </div>
     <div class="list" id="sorties"></div>
     <details class="panel" style="margin-top:14px"><summary><b>Sorties récentes</b></summary><div class="list" id="sorties-passees" style="margin-top:10px"></div></details>
@@ -448,7 +449,9 @@ function sortieRow(s){
   return `<div class="row"><div class="grow">
     <h4>${esc(s.nom)}</h4>
     <div class="meta"><b>${esc(quand)}</b>${n!==null?` · ${libelleJours(n)}`:''} · ${esc(s.type||'')}${s.prix?` · ${esc(s.prix)}`:''}</div>
-    <div class="meta" style="margin-top:4px"><span class="badge ${cls}">${lbl}</span> ${s.surveiller?'<span class="badge b-ok">Surveillé</span>':''}</div>
+    <div class="meta" style="margin-top:4px"><span class="badge ${cls}">${lbl}</span> ${s.surveiller?'<span class="badge b-ok">Surveillé</span>':''}
+      ${s.ajouteLe && (Date.now() - new Date(s.ajouteLe)) < 14*86400000 ? '<span class="badge b-warn">Nouveau</span>' : ''}
+      ${s.dateAvant ? `<span class="badge b-warn">Date modifiée (avant : ${esc(new Date(String(s.dateAvant).slice(0,10)+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'}))})</span>` : ''}</div>
     ${s.note?`<div class="meta" style="margin-top:4px">${esc(s.note)}</div>`:''}
   </div>${s.source?`<a class="btn" href="${esc(s.source)}" target="_blank" rel="noopener">Source</a>`:''}</div>`;
 }
@@ -459,6 +462,8 @@ function renderSorties(){
   const passe = all.filter(s=>{ const d = sortieDate(s); return d && joursAvant(d) < 0 && joursAvant(d) >= -45; })
                    .sort((a,b)=>sortieDate(b)-sortieDate(a));
   $('#c-sorties').textContent = futur.length;
+  const ma = S.sorties && S.sorties.majAuto;
+  $('#cal-maj').textContent = ma ? `Dernière mise à jour automatique : ${fmtDate(ma.date)}${ma.erreurs && ma.erreurs.length ? ' (source indisponible : ' + ma.erreurs.join(', ') + ')' : ''}` : (S.sorties && S.sorties.maj ? `Dernière mise à jour : ${fmtDate(S.sorties.maj)}` : '');
   const next = futur.find(s=>sortieDate(s));
   $('#next-release').innerHTML = next
     ? `<div class="meta">Prochaine sortie</div><h2 style="margin:4px 0">${esc(next.nom)}</h2><div><b style="font-size:22px;color:var(--accent)">${libelleJours(joursAvant(sortieDate(next)))}</b> <span class="meta">· ${sortieDate(next).toLocaleDateString('fr-FR',{weekday:'long', day:'numeric', month:'long'})}${next.prix?' · '+esc(next.prix):''}</span></div>`

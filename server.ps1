@@ -141,6 +141,13 @@ function Load-All {
     $Script:Catalogue = Read-Json $CataloguePath
     if (-not $Script:Catalogue) { $Script:Catalogue = [pscustomobject]@{ produits = @() } }
     $Script:Magasins = Read-Json $MagasinsPath
+    # magasins qui ne vendent pas de cartes Pokemon (ex. Action, Lego) : retires de l'affichage
+    $exM = [string]$Script:Config.magasinsExclus
+    if ($Script:Magasins -and $exM) {
+        foreach ($z in @($Script:Magasins.zones)) {
+            $z.magasins = @(@($z.magasins) | Where-Object { (Normalize ([string]$_.nom)) -notmatch $exM })
+        }
+    }
     $Script:Sorties = Read-Json $SortiesPath
     # motifs et recherches des prochaines sorties a surveiller (en plus de la serie 30 ans)
     $Script:SortieMotifs = @(@($Script:Sorties.sorties) | Where-Object { $_ -and $_.surveiller -and $_.motif } | ForEach-Object { [string]$_.motif })
@@ -175,7 +182,20 @@ function Find-Zone([string]$text) {
 function Check-Sorties($newAlerts) {
     $now = Get-Date
     foreach ($s in @($Script:Sorties.sorties)) {
-        if (-not $s -or -not $s.date) { continue }
+        if (-not $s) { continue }
+        # calendrier mis a jour automatiquement : nouvelle annonce ou date modifiee
+        $dStr = if ($s.date -is [datetime]) { $s.date.ToString('yyyy-MM-dd') } elseif ($s.date) { ([string]$s.date).Substring(0, [math]::Min(10, ([string]$s.date).Length)) } else { '' }
+        if ($s.ajouteLe -and -not $Script:SortiesAnnoncees.ContainsKey("ajout|$($s.id)")) {
+            $Script:SortiesAnnoncees["ajout|$($s.id)"] = $true
+            if ($dStr -and $dStr -lt $now.ToString('yyyy-MM-dd')) { continue }   # deja sortie : pas d'annonce
+            $msg = "Nouvelle sortie au calendrier" + $(if ($dStr) { " : le $dStr" } else { '' }) + $(if ($s.prix) { " - $($s.prix)" } else { '' })
+            [void]$newAlerts.Add((Add-Alert 'sortie' ([string]$s.nom) $msg ([string]$s.source) '' $false))
+        }
+        if ($s.modifieLe -and $s.dateAvant -and -not $Script:SortiesAnnoncees.ContainsKey("modif|$($s.id)|$dStr")) {
+            $Script:SortiesAnnoncees["modif|$($s.id)|$dStr"] = $true
+            [void]$newAlerts.Add((Add-Alert 'sortie' ([string]$s.nom) "Date modifiee : $($s.dateAvant) -> $dStr" ([string]$s.source) '' $false))
+        }
+        if (-not $s.date) { continue }
         $d = [datetime]::MinValue
         if ($s.date -is [datetime]) { $d = $s.date }
         elseif (-not [datetime]::TryParseExact(([string]$s.date).Substring(0, [math]::Min(10, ([string]$s.date).Length)), 'yyyy-MM-dd', $Inv, [Globalization.DateTimeStyles]::None, [ref]$d)) { continue }

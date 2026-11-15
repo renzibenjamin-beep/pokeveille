@@ -32,7 +32,8 @@ function Get-Category($tags) {
     if ($shop -in @('games', 'hobby', 'comic', 'anime', 'collector')) { return 'jeux' }
     if ($shop -eq 'toys') { return 'jouets' }
     if ($shop -eq 'video_games') { return 'culture' }
-    if ($n -match '(?i)\baction\b') { return 'autres' }
+    # Action, Lego : pas de cartes Pokemon -> ignores
+    if ($n -match '(?i)\baction\b|\blego\b') { return $null }
     return $null
 }
 
