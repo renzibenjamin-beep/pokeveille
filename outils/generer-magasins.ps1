@@ -45,14 +45,14 @@ function Get-DistanceKm($lat1, $lon1, $lat2, $lon2) {
 
 function Invoke-Overpass([string]$q) {
     $body = 'data=' + [uri]::EscapeDataString($q)
-    for ($round = 0; $round -lt 2; $round++) {
+    for ($round = 0; $round -lt 3; $round++) {
         foreach ($ep in $Endpoints) {
             try {
                 $r = Invoke-WebRequest -Uri $ep -Method Post -Body $body -ContentType 'application/x-www-form-urlencoded' -UseBasicParsing -TimeoutSec 120 -UserAgent 'PokeVeille/1.0 (usage personnel)'
                 return ($Utf8.GetString($r.RawContentStream.ToArray()) | ConvertFrom-Json)
             } catch { Write-Host "    $($ep.Split('/')[2]) : $($_.Exception.Message)" -ForegroundColor DarkYellow; Start-Sleep 3 }
         }
-        Start-Sleep 15
+        Start-Sleep (30 * ($round + 1))   # serveurs surcharges : on patiente de plus en plus
     }
     throw 'Overpass indisponible'
 }
@@ -78,7 +78,8 @@ foreach ($z in $Zones) {
         for ($b = 0; $b -lt $Tiles; $b++) {
             $s = $z.lat - $dLat + (2 * $dLat / $Tiles) * $a; $w = $z.lon - $dLon + (2 * $dLon / $Tiles) * $b
             $tb = [string]::Format($Inv, '{0:F4},{1:F4},{2:F4},{3:F4}', $s, $w, ($s + 2 * $dLat / $Tiles), ($w + 2 * $dLon / $Tiles))
-            $queries += "[out:json][timeout:50][bbox:$tb];(nwr[shop~`"^(toys|games|video_games|hobby|comic|anime|collector)$`"];nwr[shop~`"^(supermarket|hypermarket|books|department_store|electronics|variety_store|general|multimedia)$`"][name~`"$Brands`",i];);out center tags;"
+            # requete legere : filtre uniquement sur le type de magasin (index), le tri des enseignes se fait ici
+            $queries += "[out:json][timeout:90][bbox:$tb];nwr[shop~`"^(toys|games|video_games|hobby|comic|anime|collector|supermarket|hypermarket|books|department_store|variety_store|multimedia)$`"];out center tags;"
         }
     }
     $stores = @{}
