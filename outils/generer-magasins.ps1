@@ -48,7 +48,7 @@ function Invoke-Overpass([string]$q) {
     for ($round = 0; $round -lt 2; $round++) {
         foreach ($ep in $Endpoints) {
             try {
-                $r = Invoke-WebRequest -Uri $ep -Method Post -Body $body -ContentType 'application/x-www-form-urlencoded' -UseBasicParsing -TimeoutSec 90 -UserAgent 'PokeVeille/1.0 (usage personnel)'
+                $r = Invoke-WebRequest -Uri $ep -Method Post -Body $body -ContentType 'application/x-www-form-urlencoded' -UseBasicParsing -TimeoutSec 120 -UserAgent 'PokeVeille/1.0 (usage personnel)'
                 return ($Utf8.GetString($r.RawContentStream.ToArray()) | ConvertFrom-Json)
             } catch { Write-Host "    $($ep.Split('/')[2]) : $($_.Exception.Message)" -ForegroundColor DarkYellow; Start-Sleep 3 }
         }
@@ -113,7 +113,9 @@ foreach ($z in $Zones) {
         Start-Sleep 2
     }
     $list = @($stores.Values | Sort-Object { $_.distanceKm })
-    Write-Host ("  {0} magasins" -f $list.Count)
+    Write-Host ("  {0} magasins ({1} morceau(x) ignore(s))" -f $list.Count, $failed)
+    # ne pas remplacer une bonne liste par une liste trouee : on echoue, l'ancienne liste est conservee
+    if ($failed -gt [math]::Floor($queries.Count / 3)) { throw "Trop de morceaux en echec ($failed/$($queries.Count)) pour la zone $($z.nom) : liste non mise a jour" }
 
     Write-Host '  communes'
     $places = Invoke-Overpass "[out:json][timeout:60][bbox:$bb];node[place~`"^(city|town)$`"][name];out tags center;"

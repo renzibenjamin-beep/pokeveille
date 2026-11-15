@@ -1,0 +1,40 @@
+name: Magasins proches
+
+# Liste des magasins a 50 km des zones (OpenStreetMap). Separee de l'analyse : les serveurs
+# OpenStreetMap gratuits peuvent mettre 15 minutes, ce qui retarderait les alertes.
+on:
+  schedule:
+    - cron: '17 3 * * 1'   # chaque lundi vers 4 h (heure de Paris)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: magasins
+  cancel-in-progress: true
+
+jobs:
+  magasins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      ZONES_JSON: ${{ secrets.ZONES_JSON }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generer la liste des magasins proches
+        if: ${{ env.ZONES_JSON != '' }}
+        run: pwsh -NoProfile -File outils/generer-magasins.ps1 -Out magasins.json
+
+      - name: Enregistrer la liste
+        if: ${{ env.ZONES_JSON != '' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add magasins.json
+          if ! git diff --cached --quiet; then
+            git commit -q -m "Magasins proches $(date -u +%F)"
+            git pull -q --rebase origin main
+            git push -q origin main
+          fi

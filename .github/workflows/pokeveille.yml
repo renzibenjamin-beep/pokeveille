@@ -31,35 +31,9 @@ jobs:
       NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       TABLEAU_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
-      ZONES_JSON: ${{ secrets.ZONES_JSON }}
     steps:
+      # magasins.json (magasins proches) est mis a jour chaque semaine par le workflow "Magasins proches"
       - uses: actions/checkout@v4
-
-      # Magasins a 50 km des zones (OpenStreetMap) : regeneres une fois par semaine
-      - name: Semaine en cours
-        id: semaine
-        run: echo "s=$(date +%G-%V)" >> "$GITHUB_OUTPUT"
-
-      - name: Restaurer la liste des magasins proches
-        id: cache-magasins
-        uses: actions/cache/restore@v4
-        with:
-          path: magasins.json
-          key: magasins-${{ steps.semaine.outputs.s }}
-
-      - name: Generer la liste des magasins proches
-        if: ${{ steps.cache-magasins.outputs.cache-hit != 'true' && env.ZONES_JSON != '' }}
-        continue-on-error: true
-        timeout-minutes: 6
-        run: pwsh -NoProfile -File outils/generer-magasins.ps1 -Out magasins.json
-
-      - name: Sauver la liste des magasins proches
-        if: ${{ steps.cache-magasins.outputs.cache-hit != 'true' && hashFiles('magasins.json') != '' }}
-        continue-on-error: true
-        uses: actions/cache/save@v4
-        with:
-          path: magasins.json
-          key: magasins-${{ steps.semaine.outputs.s }}
 
       - name: Restaurer l'etat precedent (evite les alertes en double)
         uses: actions/cache/restore@v4
