@@ -61,7 +61,7 @@ function Normalize([string]$s) {
     foreach ($ch in $d.ToCharArray()) {
         if ([Globalization.CharUnicodeInfo]::GetUnicodeCategory($ch) -ne [Globalization.UnicodeCategory]::NonSpacingMark) { [void]$sb.Append($ch) }
     }
-    return ($sb.ToString().ToLowerInvariant() -replace '[’`]', "'")
+    return ($sb.ToString().ToLowerInvariant() -replace '[\u2019`]', "'")
 }
 
 function Clean-Html([string]$s) {
