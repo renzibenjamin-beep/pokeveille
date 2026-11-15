@@ -4,7 +4,8 @@ param(
     [int]$Port = 8730,
     [switch]$NoBrowser,
     [switch]$Once,
-    [switch]$TestNotification
+    [switch]$TestNotification,
+    [string]$Export   # avec -Once : ecrit l'etat public (sans secrets) dans ce fichier JSON, pour la page mobile
 )
 # Fonctionne aussi sous Linux avec PowerShell 7 (serveur Oracle Cloud) : voir le dossier "serveur".
 $OnWindows = ($PSVersionTable.PSEdition -eq 'Desktop') -or ($IsWindows -eq $true)
@@ -216,7 +217,14 @@ function Send-Ntfy([string]$title, [string]$msg, [string]$url, [int]$prio) {
     if ($OnWindows -and $n.ntfyDepuisPC -eq $false) { return }
     $server = if ($n.ntfyServeur) { ([string]$n.ntfyServeur).TrimEnd('/') } else { 'https://ntfy.sh' }
     $p = [ordered]@{ topic = [string]$n.ntfyTopic; title = $title; message = $msg; priority = $prio; tags = @('rotating_light') }
-    if ($url) { $p.click = $url; $p.actions = @(@{ action = 'view'; label = 'Ouvrir'; url = $url }) }
+    $actions = @()
+    if ($url) { $p.click = $url; $actions += @{ action = 'view'; label = 'Ouvrir'; url = $url } }
+    # lien vers la page mobile (GitHub Pages), fourni par le workflow
+    if ($env:TABLEAU_URL) {
+        if (-not $url) { $p.click = $env:TABLEAU_URL }
+        $actions += @{ action = 'view'; label = 'Tableau de bord'; url = $env:TABLEAU_URL }
+    }
+    if ($actions.Count -gt 0) { $p.actions = $actions }
     try {
         $bytes = $Utf8.GetBytes((ConvertTo-Json -InputObject $p -Depth 5))
         Invoke-RestMethod -Uri $server -Method Post -Body $bytes -ContentType 'application/json; charset=utf-8' -TimeoutSec 15 | Out-Null
@@ -596,7 +604,28 @@ if ($TestNotification) {
     Write-Log "Notification de test envoyee"
     return
 }
-if ($Once) { Run-Scan; return }
+function Export-Etat([string]$path) {
+    # Version publique de l'etat : aucun secret (pas de sujet ntfy, pas de webhook, pas de journal)
+    $c = $Script:Config
+    $obj = [ordered]@{
+        statique = $true
+        derniereAnalyse = $Script:LastScan
+        prochaineAnalyse = (Get-Date).AddMinutes(10).ToString('s')
+        analyseEnCours = $false
+        produits = @($Script:Items.Values)
+        signalements = @($Script:Deals.Values | Sort-Object vu -Descending)
+        alertes = @($Script:Alerts | Select-Object -Last 100)
+        sources = $Script:Sources
+        config = [ordered]@{ tolerancePourcent = $c.tolerancePourcent; intervalleMinutes = 10 }
+        catalogue = $Script:Catalogue
+    }
+    $dir = Split-Path -Parent $path
+    if ($dir -and -not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir | Out-Null }
+    [IO.File]::WriteAllText($path, (ConvertTo-Json -InputObject $obj -Depth 12 -Compress), $Utf8)
+    Write-Log "Etat public exporte : $path"
+}
+
+if ($Once) { Run-Scan; if ($Export) { Export-Etat $Export }; return }
 
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$Port/")

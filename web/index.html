@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PokéVeille 30 ans</title>
+<meta name="theme-color" content="#e3350d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PokéVeille">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23fff' stroke='%23222' stroke-width='8'/%3E%3Cpath d='M4 50a46 46 0 0 1 92 0z' fill='%23e3350d' stroke='%23222' stroke-width='8'/%3E%3Ccircle cx='50' cy='50' r='13' fill='%23fff' stroke='%23222' stroke-width='8'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f4f5f8; --panel:#ffffff; --ink:#1b1e27; --muted:#6a7083; --line:#e3e6ee;
+  --accent:#e3350d; --accent-ink:#fff; --ok:#14804a; --ok-bg:#e3f6ec; --warn:#a15c00; --warn-bg:#fff2dc;
+  --bad:#b42318; --bad-bg:#fde8e7; --grey-bg:#eef0f4; --info:#1f5fbf; --info-bg:#e6efff;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#12141a; --panel:#1b1e27; --ink:#e9ebf1; --muted:#9aa1b4; --line:#2b2f3b;
+    --ok:#5fd39a; --ok-bg:#163527; --warn:#f0b357; --warn-bg:#3a2a12; --bad:#ff8a80; --bad-bg:#3d1a1a; --grey-bg:#252935; --info:#8fb6ff; --info-bg:#1a2742; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Segoe UI",system-ui,-apple-system,sans-serif}
+header{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.wrap{max-width:1200px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.ball{width:26px;height:26px;border-radius:50%;background:linear-gradient(var(--accent) 0 46%,#222 46% 54%,#fff 54%);border:2px solid #222;position:relative}
+.ball:after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid #222;left:50%;top:50%;transform:translate(-50%,-50%)}
+.status{margin-left:auto;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;flex-wrap:wrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);display:inline-block;margin-right:6px}
+.dot.busy{background:var(--warn);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+button,.btn{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 13px;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block}
+button.primary,.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+button:hover,.btn:hover{filter:brightness(.96)}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{border:none;border-bottom:3px solid transparent;border-radius:0;background:none;padding:10px 12px;color:var(--muted);white-space:nowrap}
+nav button.on{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+.count{background:var(--grey-bg);border-radius:10px;padding:0 7px;font-size:12px;margin-left:4px}
+main{padding:20px 0 60px}
+.tab{display:none}.tab.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kpi b{display:block;font-size:24px}
+.kpi span{color:var(--muted);font-size:13px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.chip{border-radius:20px;padding:5px 12px;font-size:13px}
+.chip.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+input[type=search],input[type=text],input[type=number],textarea,select{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;width:100%}
+.filters input[type=search]{max-width:260px;margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.card .img{height:150px;background:#fff;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line)}
+.card .img img{max-width:100%;max-height:140px;object-fit:contain}
+.card .body{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-size:14px;margin:0;font-weight:600;line-height:1.3}
+.meta{color:var(--muted);font-size:12.5px}
+.price{display:flex;align-items:baseline;gap:8px}
+.price b{font-size:20px}
+.price .ref{color:var(--muted);font-size:12.5px}
+.badge{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px}
+.b-ok{background:var(--ok-bg);color:var(--ok)} .b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-bad{background:var(--bad-bg);color:var(--bad)} .b-grey{background:var(--grey-bg);color:var(--muted)} .b-info{background:var(--info-bg);color:var(--info)}
+.card .actions{margin-top:auto;padding-top:6px}
+.card.hl{outline:2px solid var(--ok)}
+.empty{color:var(--muted);padding:30px;text-align:center;background:var(--panel);border:1px dashed var(--line);border-radius:12px}
+.list{display:flex;flex-direction:column;gap:10px}
+.row{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;gap:12px;align-items:flex-start}
+.row img{width:64px;height:64px;object-fit:contain;background:#fff;border-radius:8px;flex:none}
+.row .grow{flex:1;min-width:0}
+.row h4{margin:0 0 3px;font-size:14px}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:middle}
+th{color:var(--muted);font-weight:600;font-size:12.5px}
+td input[type=number]{width:110px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.panel h2{font-size:16px;margin:0 0 10px}
+.form{display:grid;grid-template-columns:220px 1fr;gap:10px 16px;align-items:center}
+.form label{color:var(--muted);font-size:14px}
+.form .full{grid-column:1/-1}
+.hint{color:var(--muted);font-size:12.5px;margin:4px 0 0}
+textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
+.links{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.links a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--ink);text-decoration:none}
+.links a small{display:block;color:var(--muted)}
+.log{font-family:Consolas,monospace;font-size:12px;white-space:pre-wrap;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;max-height:300px;overflow:auto}
+.src{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--ink);color:var(--panel);padding:10px 14px;border-radius:10px;opacity:0;transition:.3s;pointer-events:none}
+.toast.on{opacity:1}
+/* page publique (telephone) : lecture seule */
+.static #btn-scan, .static #btn-test, .static #btn-clear, .static #btn-notif,
+.static #nav [data-tab="catalogue"], .static #nav [data-tab="reglages"] { display:none }
+@media (max-width:640px){
+  .top{gap:8px}
+  nav{flex-wrap:wrap;gap:0}
+  nav button{padding:8px 9px;font-size:14px}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi b{font-size:20px}
+  .card .img{height:120px} .form{grid-template-columns:1fr} .filters input[type=search]{max-width:none;margin-left:0} .status{margin-left:0} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="logo"><div class="ball"></div>PokéVeille <span style="color:var(--accent)">30 ans</span></div>
+      <div class="status">
+        <span id="st-run"><span class="dot"></span>…</span>
+        <span id="st-last"></span>
+        <span id="st-next"></span>
+        <button class="primary" id="btn-scan">Analyser maintenant</button>
+      </div>
+    </div>
+    <nav id="nav">
+      <button data-tab="produits" class="on">Produits <span class="count" id="c-produits">0</span></button>
+      <button data-tab="signalements">Signalements magasin <span class="count" id="c-sig">0</span></button>
+      <button data-tab="alertes">Alertes <span class="count" id="c-alertes">0</span></button>
+      <button data-tab="liens">Vérifier les enseignes</button>
+      <button data-tab="catalogue">Catalogue &amp; prix</button>
+      <button data-tab="reglages">Réglages</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- PRODUITS -->
+  <section class="tab on" id="tab-produits">
+    <div class="kpis">
+      <div class="kpi"><b id="k-ok" style="color:var(--ok)">0</b><span>Dispo au prix magasin</span></div>
+      <div class="kpi"><b id="k-gonfle" style="color:var(--warn)">0</b><span>Dispo mais prix gonflé (revendeurs)</span></div>
+      <div class="kpi"><b id="k-rupture">0</b><span>En rupture</span></div>
+      <div class="kpi"><b id="k-sig" style="color:var(--info)">0</b><span>Signalements Dealabs</span></div>
+    </div>
+    <div class="src" id="sources"></div>
+    <div class="filters" id="filters">
+      <button class="chip on" data-f="prix-magasin">Prix magasin</button>
+      <button class="chip" data-f="dispo">Toutes les offres dispo</button>
+      <button class="chip" data-f="tous">Tout</button>
+      <button class="chip" data-f="rupture">En rupture</button>
+      <input type="search" id="q" placeholder="Filtrer (ETB, Mini Tin, Auchan…)">
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- SIGNALEMENTS -->
+  <section class="tab" id="tab-signalements">
+    <div class="panel">
+      <h2>Signalements de la communauté (Dealabs)</h2>
+      <p class="hint" style="margin:0">Les membres de Dealabs signalent les produits trouvés en rayon (Carrefour, Leclerc, Fnac…) ou en ligne. Les signalements mentionnant un magasin sont marqués « En magasin » et déclenchent une alerte prioritaire. Dernières 200 entrées liées aux 30 ans.</p>
+    </div>
+    <div class="filters">
+      <button class="chip on" data-sf="tous">Tous</button>
+      <button class="chip" data-sf="magasin">En magasin uniquement</button>
+    </div>
+    <div class="list" id="sig"></div>
+  </section>
+
+  <!-- ALERTES -->
+  <section class="tab" id="tab-alertes">
+    <div class="filters">
+      <button id="btn-notif">Activer les notifications du navigateur</button>
+      <button id="btn-test">Envoyer une notification de test</button>
+      <button id="btn-clear">Effacer l'historique</button>
+    </div>
+    <div class="list" id="alerts"></div>
+  </section>
+
+  <!-- LIENS -->
+  <section class="tab" id="tab-liens">
+    <div class="panel">
+      <h2>Enseignes à vérifier à la main</h2>
+      <p class="hint" style="margin:0">Ces sites bloquent les robots : PokéVeille ne les interroge pas automatiquement (et ne contourne pas leurs protections). Un clic ouvre directement la recherche « Pokémon 30 ans » dans votre navigateur. Astuce : sur Fnac, Cultura et Leclerc, choisissez votre magasin pour voir le stock en rayon.</p>
+    </div>
+    <div class="links" id="links"></div>
+  </section>
+
+  <!-- CATALOGUE -->
+  <section class="tab" id="tab-catalogue">
+    <div class="panel">
+      <h2>Prix de référence (« prix magasin »)</h2>
+      <p class="hint" style="margin:0">Une offre est considérée « au prix magasin » si son prix est ≤ prix de référence + tolérance. Les prix par défaut sont des prix publics constatés en boutique : ajustez-les avec ceux que vous voyez en rayon (les hypermarchés sont souvent moins chers).</p>
+    </div>
+    <table>
+      <thead><tr><th>Produit</th><th>Sortie</th><th>Prix de référence (€)</th><th>Offres trouvées</th></tr></thead>
+      <tbody id="cat"></tbody>
+    </table>
+    <p><button class="primary" id="btn-cat">Enregistrer les prix</button></p>
+  </section>
+
+  <!-- REGLAGES -->
+  <section class="tab" id="tab-reglages">
+    <div class="panel">
+      <h2>Analyse</h2>
+      <div class="form">
+        <label for="r-int">Intervalle entre analyses (minutes)</label><input type="number" id="r-int" min="2" max="120">
+        <label for="r-tol">Tolérance au-dessus du prix de référence (%)</label><input type="number" id="r-tol" min="0" max="100">
+        <label for="r-sansref">Alerter aussi pour les produits sans prix de référence</label><div><input type="checkbox" id="r-sansref"></div>
+        <label for="r-excl">Mots exclus (regex, ex. versions japonaises)</label><input type="text" id="r-excl">
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Notifications</h2>
+      <div class="form">
+        <label for="r-fen">Fenêtre d'alerte + son</label><div><input type="checkbox" id="r-fen"> <span class="hint">petite fenêtre au premier plan en bas à droite, fonctionne même si les notifications Windows sont coupées</span></div>
+        <label for="r-win">Notifications Windows</label><div><input type="checkbox" id="r-win"> <span class="hint" id="win-state"></span></div>
+        <label for="r-ntfy">Sujet ntfy (alertes sur téléphone)</label>
+        <div><div style="display:flex;gap:8px"><input type="text" id="r-ntfy" placeholder="ex. pokeveille-k3x9q2"><button id="btn-gen">Générer</button></div>
+          <p class="hint">Installez l'appli gratuite <b>ntfy</b> (Android / iPhone), abonnez-vous à ce sujet sur ntfy.sh : vous recevez les alertes sur votre téléphone, même en déplacement. Choisissez un nom difficile à deviner (les sujets sont publics).</p></div>
+        <label for="r-ntfypc">Envoyer les alertes ntfy depuis ce PC</label><div><input type="checkbox" id="r-ntfypc"> <span class="hint">à décocher quand GitHub envoie déjà les alertes au téléphone (évite les doublons) ; fait automatiquement par « Publier sur GitHub »</span></div>
+        <label for="r-ntfys">Serveur ntfy</label><input type="text" id="r-ntfys">
+        <label for="r-disc">Webhook Discord (facultatif)</label><input type="text" id="r-disc" placeholder="https://discord.com/api/webhooks/…">
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Sources</h2>
+      <div class="form">
+        <label for="s-auchan">Auchan</label><div><input type="checkbox" id="s-auchan"> <span class="hint">recherche sur auchan.fr ; distingue Auchan des revendeurs marketplace</span></div>
+        <label for="s-auchan-q">Recherches Auchan (1 par ligne)</label><textarea id="s-auchan-q"></textarea>
+        <label for="s-shop">Boutiques Shopify</label><div><input type="checkbox" id="s-shop"> <span class="hint">boutiques spécialisées JCC (une URL par ligne ci-dessous)</span></div>
+        <label for="s-shop-b">URLs des boutiques</label><textarea id="s-shop-b"></textarea>
+        <label for="s-shop-q">Recherches boutiques (1 par ligne)</label><textarea id="s-shop-q"></textarea>
+        <label for="s-deal">Dealabs</label><div><input type="checkbox" id="s-deal"> <span class="hint">flux RSS des bons plans signalés</span></div>
+        <label for="s-deal-f">Flux RSS (1 par ligne)</label><textarea id="s-deal-f"></textarea>
+        <label for="s-pages">Pages surveillées</label><div><input type="checkbox" id="s-pages"> <span class="hint">n'importe quelle fiche produit</span></div>
+        <label for="s-pages-l">Fiches produit</label>
+        <div><textarea id="s-pages-l" placeholder="https://www.exemple.fr/produit-123 | Coffret Dresseur d'Élite | 59.99"></textarea>
+          <p class="hint">Une par ligne : <code>URL | nom (facultatif) | prix de référence (facultatif)</code>. Fonctionne avec les sites qui publient la disponibilité (schema.org). Les sites anti-robots seront marqués « bloqué ».</p></div>
+      </div>
+    </div>
+    <p><button class="primary" id="btn-save">Enregistrer les réglages</button></p>
+    <div class="panel"><h2>Journal</h2><div class="log" id="log"></div></div>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const eur = v => v == null ? '—' : Number(v).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+const fmtDate = s => s ? new Date(s).toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+// Page publiee sur GitHub Pages (consultation depuis le telephone) : lecture seule, donnees dans etat.json
+const STATIC = !['localhost','127.0.0.1'].includes(location.hostname) || new URLSearchParams(location.search).has('statique');
+if (STATIC) document.documentElement.classList.add('static');
+const store = { get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v);}catch{return d} }, set(k,v){ try{localStorage.setItem(k,JSON.stringify(v))}catch{} } };
+
+let catDirty = false;
+let S = null, filter = store.get('pv-filter','prix-magasin'), sigFilter = 'tous', firstLoad = true;
+let lastAlertId = store.get('pv-lastAlert', 0);
+
+const STATUTS = {
+  'prix-magasin':  ['Prix magasin', 'b-ok'],
+  'prix-gonfle':   ['Prix gonflé', 'b-warn'],
+  'dispo-sans-ref':['Dispo · réf. inconnue', 'b-info'],
+  'rupture':       ['Rupture', 'b-grey'],
+  'bloque':        ['Bloqué (anti-robot)', 'b-bad'],
+};
+
+const LIENS = [
+  ['Pokémon Center (FR)', 'https://www.pokemoncenter.com/fr-fr', 'Boutique officielle · ETB exclusif Pokémon Center'],
+  ['Fnac', 'https://www.fnac.com/SearchResult/ResultList.aspx?Search=pokemon%2030%20ans', 'Stock magasin visible après choix du magasin'],
+  ['Cultura', 'https://www.cultura.com/search/results?search_query=pokemon%2030%20ans', 'Retrait 2h · stock magasin'],
+  ['E.Leclerc', 'https://www.e.leclerc/recherche?q=pokemon%2030%20ans', 'Stock par magasin'],
+  ['Carrefour', 'https://www.carrefour.fr/s?q=pokemon+30+ans', 'Drive / livraison'],
+  ['Amazon (vendu par Amazon)', 'https://www.amazon.fr/s?k=pokemon+30+ans&rh=p_6%3AA1X6FK5RDHNB96', 'Filtre vendeur Amazon uniquement (évite les revendeurs)'],
+  ['Micromania', 'https://www.micromania.fr/search?q=pokemon+30+ans', 'Réservation magasin'],
+  ['King Jouet', 'https://www.king-jouet.com/', 'Recherchez « Pokémon 30 ans »'],
+  ['JouéClub', 'https://www.joueclub.fr/', 'Recherchez « Pokémon 30 ans »'],
+  ['Smyths Toys', 'https://www.smythstoys.com/fr/fr-fr/search/?text=pokemon%2030', 'Click & collect'],
+  ['Auchan', 'https://www.auchan.fr/recherche?text=pokemon+30+ans', 'Surveillé automatiquement'],
+  ['Dealabs · groupe Pokémon', 'https://www.dealabs.com/groupe/pokemon', 'Surveillé automatiquement'],
+];
+
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),2500); }
+
+async function api(path, body){
+  const r = await fetch(path, body===undefined ? {} : {method:'POST', headers:{'Content-Type':'application/json'}, body: typeof body==='string'?body:JSON.stringify(body)});
+  if(!r.ok) throw new Error((await r.text()) || r.status);
+  return r.json();
+}
+
+function beep(){
+  try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(); [0,0.18,0.36].forEach((t,i)=>{ const o=ctx.createOscillator(), g=ctx.createGain(); o.frequency.value=[880,1175,1568][i]; g.gain.setValueAtTime(.15,ctx.currentTime+t); g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.16); o.connect(g).connect(ctx.destination); o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.17); }); }catch{}
+}
+
+async function load(){
+  try {
+    S = STATIC ? await fetch('etat.json?t=' + Date.now(), {cache:'no-store'}).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })
+               : await api('/api/etat');
+  } catch(e){ $('#st-run').innerHTML = `<span class="dot" style="background:var(--bad)"></span>${STATIC?'Données indisponibles':'Serveur arrêté'}`; return; }
+  render();
+  // nouvelles alertes → son + notification navigateur
+  const alerts = S.alertes || [];
+  const maxId = alerts.reduce((m,a)=>Math.max(m,a.id),0);
+  if (!firstLoad && maxId > lastAlertId) {
+    const fresh = alerts.filter(a=>a.id>lastAlertId);
+    beep();
+    if ('Notification' in window && Notification.permission==='granted') {
+      fresh.slice(-3).forEach(a=>{ const n=new Notification(a.titre,{body:a.message,icon:a.image||undefined}); n.onclick=()=>window.open(a.url,'_blank'); });
+    }
+  }
+  if (maxId > lastAlertId) { lastAlertId = maxId; store.set('pv-lastAlert', maxId); }
+  if (firstLoad) { if (!STATIC) fillSettings(); firstLoad = false; }
+}
+
+function render(){
+  const busy = S.analyseEnCours;
+  $('#st-run').innerHTML = `<span class="dot ${busy?'busy':''}"></span>${busy?'Analyse en cours…':(STATIC?'Surveillance GitHub':'Surveillance active')}`;
+  $('#st-last').textContent = 'Dernière : ' + fmtDate(S.derniereAnalyse);
+  $('#st-next').textContent = STATIC ? 'Prochaine : ~10 min' : 'Prochaine : ' + fmtDate(S.prochaineAnalyse);
+
+  const P = S.produits || [];
+  const cnt = st => P.filter(p=>p.statut===st).length;
+  $('#k-ok').textContent = cnt('prix-magasin');
+  $('#k-gonfle').textContent = cnt('prix-gonfle');
+  $('#k-rupture').textContent = cnt('rupture');
+  $('#k-sig').textContent = (S.signalements||[]).length;
+  $('#c-produits').textContent = P.length;
+  $('#c-sig').textContent = (S.signalements||[]).filter(s=>s.magasin).length + ' mag.';
+  $('#c-alertes').textContent = (S.alertes||[]).length;
+
+  const ws = S.notificationsWindows;
+  $('#win-state').innerHTML = ws==='Enabled' ? '<span class="badge b-ok">actives</span>'
+    : ws==='Serveur' ? '<span class="badge b-grey">sans objet sur le serveur</span> Les alertes partent vers ntfy (téléphone).'
+    : ws ? '<span class="badge b-bad">désactivées par Windows</span> Activez-les : Paramètres › Système › Notifications et actions (interrupteur général + « Windows PowerShell »).' : '';
+
+  // sources
+  $('#sources').innerHTML =Object.values(S.sources||{}).map(s=>{
+    const cls = s.etat==='ok'?'b-ok':s.etat==='erreur'?'b-bad':'b-grey';
+    return `<span class="badge ${cls}" title="${esc(s.detail)}">${esc(s.label)} · ${s.etat==='ok'?esc(s.detail):esc(s.etat)}</span>`;
+  }).join('');
+
+  // produits
+  document.querySelectorAll('#filters .chip').forEach(b=>b.classList.toggle('on', b.dataset.f===filter));
+  const q = $('#q').value.trim().toLowerCase();
+  const order = {'prix-magasin':0,'dispo-sans-ref':1,'prix-gonfle':2,'bloque':3,'rupture':4};
+  let list = P.filter(p=>{
+    if (filter==='prix-magasin' && p.statut!=='prix-magasin') return false;
+    if (filter==='dispo' && !p.enStock) return false;
+    if (filter==='rupture' && p.statut!=='rupture') return false;
+    if (q && !(`${p.titre} ${p.sourceLabel} ${p.vendeur} ${p.catalogueNom}`.toLowerCase().includes(q))) return false;
+    return true;
+  }).sort((a,b)=>(order[a.statut]-order[b.statut]) || ((a.prix??1e9)-(b.prix??1e9)));
+  $('#grid').innerHTML = list.length ? list.map(card).join('') :
+    `<div class="empty" style="grid-column:1/-1">${filter==='prix-magasin' ? 'Aucune offre au prix magasin pour l\'instant. PokéVeille continue de surveiller et vous alertera dès qu\'une offre apparaît.<br><br>Voir <a href="#" onclick="setFilter(\'dispo\');return false">toutes les offres dispo</a> (souvent des revendeurs).' : 'Aucun produit.'}</div>`;
+
+  // signalements
+  document.querySelectorAll('[data-sf]').forEach(b=>b.classList.toggle('on', b.dataset.sf===sigFilter));
+  const sig = (S.signalements||[]).filter(s=>sigFilter==='tous'||s.magasin);
+  $('#sig').innerHTML = sig.length ? sig.map(s=>`
+    <div class="row">${s.image?`<img src="${esc(s.image)}" alt="">`:''}
+      <div class="grow"><h4>${esc(s.titre)}</h4>
+        <div class="meta">${s.magasin?'<span class="badge b-ok">En magasin</span> ':''}${esc(s.marchand||'')} · ${eur(s.prix)}${s.prixRef?` (réf. ${eur(s.prixRef)})`:''} · ${esc(s.publie||'')}</div>
+        <div class="meta">${esc(s.extrait||'')}</div></div>
+      <a class="btn" href="${esc(s.url)}" target="_blank" rel="noopener">Voir</a></div>`).join('')
+    : '<div class="empty">Aucun signalement « 30 ans » pour le moment. Ils apparaîtront ici dès qu\'un membre de Dealabs en publie un.</div>';
+
+  // alertes
+  const al = [...(S.alertes||[])].reverse();
+  $('#alerts').innerHTML = al.length ? al.map(a=>`
+    <div class="row">${a.image?`<img src="${esc(a.image)}" alt="">`:''}
+      <div class="grow"><h4>${esc(a.titre)}</h4><div class="meta">${badgeAlert(a)} ${esc(a.message)} · ${fmtDate(a.date)}</div></div>
+      ${a.url?`<a class="btn primary" href="${esc(a.url)}" target="_blank" rel="noopener">Ouvrir</a>`:''}</div>`).join('')
+    : '<div class="empty">Aucune alerte pour l\'instant.</div>';
+
+  // catalogue
+  if (!catDirty) {
+    $('#cat').innerHTML = (S.catalogue?.produits||[]).map((c,i)=>{
+      const offers = P.filter(p=>p.catalogueNom===c.nom);
+      const okN = offers.filter(p=>p.statut==='prix-magasin').length;
+      const best = offers.filter(p=>p.enStock && p.prix!=null).sort((a,b)=>a.prix-b.prix)[0];
+      return `<tr><td>${esc(c.nom)}</td><td>${esc(c.sortie||'')}</td>
+        <td><input type="number" step="0.01" min="0" data-i="${i}" value="${c.prixRef}"></td>
+        <td class="meta">${offers.length} offre(s)${okN?` · <span class="badge b-ok">${okN} au prix magasin</span>`:''}${best?` · meilleur dispo ${eur(best.prix)}`:''}</td></tr>`;
+    }).join('');
+  }
+
+  $('#log').textContent = (S.journal||[]).slice().reverse().join('\n');
+}
+
+function badgeAlert(a){
+  if (a.type==='magasin') return '<span class="badge b-ok">En magasin</span>';
+  if (a.type==='prix-magasin') return '<span class="badge b-ok">Prix magasin</span>';
+  if (a.type==='signalement') return '<span class="badge b-info">Signalement</span>';
+  return '<span class="badge b-info">Dispo</span>';
+}
+
+function card(p){
+  const [lbl, cls] = STATUTS[p.statut] || [p.statut,'b-grey'];
+  const diff = (p.prix!=null && p.prixRef) ? Math.round((p.prix/p.prixRef-1)*100) : null;
+  return `<div class="card ${p.statut==='prix-magasin'?'hl':''}">
+    <div class="img">${p.image?`<img src="${esc(p.image)}" alt="" loading="lazy">`:'<span class="meta">pas d\'image</span>'}</div>
+    <div class="body">
+      <div><span class="badge ${cls}">${lbl}</span></div>
+      <h3>${esc(p.titre)}</h3>
+      <div class="meta">${esc(p.sourceLabel)}${p.vendeur && p.vendeur!==p.sourceLabel?` · vendu par <b>${esc(p.vendeur)}</b>`:''}${p.stock!=null?` · stock ${p.stock}`:''}</div>
+      <div class="price"><b>${eur(p.prix)}</b>${p.prixRef?`<span class="ref">réf. ${eur(p.prixRef)}${diff!=null?` (${diff>0?'+':''}${diff} %)`:''}</span>`:''}</div>
+      ${p.catalogueNom?`<div class="meta">≈ ${esc(p.catalogueNom)}</div>`:''}
+      ${p.erreur?`<div class="meta" style="color:var(--bad)">${esc(p.erreur)}</div>`:''}
+      <div class="meta">Vu le ${fmtDate(p.derniereVue)}</div>
+      <div class="actions"><a class="btn ${p.statut==='prix-magasin'?'primary':''}" href="${esc(p.url)}" target="_blank" rel="noopener">${p.statut==='prix-magasin'?'Acheter':'Voir la fiche'}</a></div>
+    </div></div>`;
+}
+
+function setFilter(f){ filter=f; store.set('pv-filter',f); render(); }
+
+function lines(id){ return $(id).value.split('\n').map(s=>s.trim()).filter(Boolean); }
+
+function fillSettings(){
+  const c = S.config; if(!c) return;
+  $('#r-int').value = c.intervalleMinutes; $('#r-tol').value = c.tolerancePourcent;
+  $('#r-sansref').checked = !!c.alerterSansReference; $('#r-excl').value = c.exclure||'';
+  $('#r-win').checked = !!c.notifications.windows; $('#r-fen').checked = c.notifications.fenetre !== false; $('#r-ntfypc').checked = c.notifications.ntfyDepuisPC !== false; $('#r-ntfy').value = c.notifications.ntfyTopic||'';
+  $('#r-ntfys').value = c.notifications.ntfyServeur||'https://ntfy.sh'; $('#r-disc').value = c.notifications.discordWebhook||'';
+  const s = c.sources;
+  $('#s-auchan').checked = !!s.auchan.actif; $('#s-auchan-q').value = (s.auchan.requetes||[]).join('\n');
+  $('#s-shop').checked = !!s.shopify.actif; $('#s-shop-b').value = (s.shopify.boutiques||[]).join('\n'); $('#s-shop-q').value = (s.shopify.requetes||[]).join('\n');
+  $('#s-deal').checked = !!s.dealabs.actif; $('#s-deal-f').value = (s.dealabs.flux||[]).join('\n');
+  $('#s-pages').checked = !!s.surveillance.actif;
+  $('#s-pages-l').value = (s.surveillance.pages||[]).map(p=>[p.url,p.nom||'',p.prixRef||''].join(' | ').replace(/( \| )+$/,'')).join('\n');
+}
+
+function collectSettings(){
+  const c = JSON.parse(JSON.stringify(S.config));
+  c.intervalleMinutes = Math.max(2, Number($('#r-int').value)||5);
+  c.tolerancePourcent = Math.max(0, Number($('#r-tol').value)||0);
+  c.alerterSansReference = $('#r-sansref').checked; c.exclure = $('#r-excl').value.trim();
+  c.notifications = { windows: $('#r-win').checked, fenetre: $('#r-fen').checked, ntfyDepuisPC: $('#r-ntfypc').checked, ntfyServeur: $('#r-ntfys').value.trim()||'https://ntfy.sh', ntfyTopic: $('#r-ntfy').value.trim(), discordWebhook: $('#r-disc').value.trim() };
+  c.sources.auchan = { actif: $('#s-auchan').checked, requetes: lines('#s-auchan-q') };
+  c.sources.shopify = { actif: $('#s-shop').checked, boutiques: lines('#s-shop-b'), requetes: lines('#s-shop-q') };
+  c.sources.dealabs = { actif: $('#s-deal').checked, flux: lines('#s-deal-f') };
+  c.sources.surveillance = { actif: $('#s-pages').checked, pages: lines('#s-pages-l').map(l=>{ const [url,nom,prix]=l.split('|').map(x=>(x||'').trim()); const o={url}; if(nom) o.nom=nom; if(prix) o.prixRef=Number(prix.replace(',','.')); return o; }) };
+  return c;
+}
+
+// événements
+$('#nav').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on', t.id==='tab-'+b.dataset.tab)); store.set('pv-tab', b.dataset.tab); });
+$('#filters').addEventListener('click', e=>{ const b=e.target.closest('[data-f]'); if(b) setFilter(b.dataset.f); });
+$('#q').addEventListener('input', render);
+document.querySelectorAll('[data-sf]').forEach(b=>b.addEventListener('click',()=>{ sigFilter=b.dataset.sf; render(); }));
+$('#btn-scan').onclick = async ()=>{ await api('/api/analyser',{}); toast('Analyse lancée…'); setTimeout(load, 1500); };
+$('#btn-test').onclick = async ()=>{ await api('/api/test-notification',{}); toast('Notification de test envoyée'); };
+$('#btn-clear').onclick = async ()=>{ if(confirm('Effacer l\'historique des alertes ?')){ await api('/api/effacer-alertes',{}); load(); } };
+$('#btn-notif').onclick = async ()=>{ if(!('Notification' in window)) return toast('Non supporté'); const p = await Notification.requestPermission(); toast(p==='granted'?'Notifications activées':'Notifications refusées'); };
+$('#btn-gen').onclick = e=>{ e.preventDefault(); const r = Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b=>'abcdefghijkmnpqrstuvwxyz23456789'[b%32]).join(''); $('#r-ntfy').value = 'pokeveille-'+r; };
+$('#btn-save').onclick = async ()=>{ try{ await api('/api/config', collectSettings()); toast('Réglages enregistrés'); await load(); fillSettings(); }catch(e){ toast('Erreur : '+e.message); } };
+$('#btn-cat').onclick = async ()=>{
+  const cat = JSON.parse(JSON.stringify(S.catalogue));
+  document.querySelectorAll('#cat input[data-i]').forEach(inp=>{ cat.produits[+inp.dataset.i].prixRef = Number(inp.value)||0; });
+  try{ await api('/api/catalogue', cat); toast('Prix enregistrés'); catDirty = false; load(); }catch(e){ toast('Erreur : '+e.message); }
+};
+$('#cat').addEventListener('input', ()=>{ catDirty = true; });
+$('#links').innerHTML = LIENS.map(([n,u,d])=>`<a href="${u}" target="_blank" rel="noopener"><b>${esc(n)}</b><small>${esc(d)}</small></a>`).join('');
+
+const savedTab = store.get('pv-tab', null);
+if (savedTab) { const b = document.querySelector(`#nav [data-tab="${savedTab}"]`); if (b) b.click(); }
+if (STATIC && ['catalogue','reglages'].includes(store.get('pv-tab', null))) document.querySelector('#nav [data-tab="produits"]').click();
+load(); setInterval(load, STATIC ? 60000 : 10000);
+</script>
+</body>
+</html>

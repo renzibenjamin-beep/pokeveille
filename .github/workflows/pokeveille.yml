@@ -12,6 +12,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: pokeveille
@@ -20,7 +22,15 @@ concurrency:
 jobs:
   analyse:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    env:
+      TZ: Europe/Paris
+      NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      TABLEAU_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
     steps:
       - uses: actions/checkout@v4
 
@@ -33,17 +43,13 @@ jobs:
 
       - name: Notification de test
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.test }}
-        env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: pwsh -NoProfile -File server.ps1 -TestNotification
 
       - name: Analyse des stocks
-        env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          pwsh -NoProfile -File server.ps1 -Once
+          pwsh -NoProfile -File server.ps1 -Once -Export site/etat.json
+          cp web/index.html site/index.html
+          touch site/.nojekyll
           echo "### Dernieres lignes du journal" >> "$GITHUB_STEP_SUMMARY"
           tail -n 6 data/journal.txt >> "$GITHUB_STEP_SUMMARY" || true
 
@@ -53,6 +59,17 @@ jobs:
         with:
           path: data/state.json
           key: etat-${{ github.run_id }}
+
+      # Page consultable depuis le telephone (GitHub Pages)
+      - name: Preparer la page
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Publier la page
+        id: deploiement
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
 
       # Un petit commit par jour : GitHub desactive les taches planifiees des depots sans activite depuis 60 jours.
       - name: Battement quotidien
