@@ -121,6 +121,7 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
     <nav id="nav">
       <button data-tab="produits" class="on">Produits <span class="count" id="c-produits">0</span></button>
       <button data-tab="signalements">Signalements magasin <span class="count" id="c-sig">0</span></button>
+      <button data-tab="sorties">Sorties <span class="count" id="c-sorties">0</span></button>
       <button data-tab="proche">Près de chez moi</button>
       <button data-tab="reassorts">Réassorts <span class="count" id="c-reassorts">0</span></button>
       <button data-tab="alertes">Alertes <span class="count" id="c-alertes">0</span></button>
@@ -162,6 +163,17 @@ textarea{min-height:80px;font-family:Consolas,monospace;font-size:13px}
       <button class="chip" data-sf="magasin">En magasin uniquement</button>
     </div>
     <div class="list" id="sig"></div>
+  </section>
+
+  <!-- PROCHAINES SORTIES -->
+  <section class="tab" id="tab-sorties">
+    <div class="panel" id="next-release"></div>
+    <div class="panel">
+      <h2>Calendrier des sorties JCC Pokémon (France)</h2>
+      <p class="hint" style="margin:0">Les produits marqués « Surveillé » sont recherchés dans les boutiques et les signalements, pour attraper les précommandes et les réassorts au prix public. Tu reçois un rappel la veille au soir et le matin de chaque sortie. Les dates non officielles (revendeurs, PokéCardex, Pokékalos) peuvent bouger.</p>
+    </div>
+    <div class="list" id="sorties"></div>
+    <details class="panel" style="margin-top:14px"><summary><b>Sorties récentes</b></summary><div class="list" id="sorties-passees" style="margin-top:10px"></div></details>
   </section>
 
   <!-- PRES DE CHEZ MOI -->
@@ -418,9 +430,49 @@ function render(){
     }).join('');
   }
 
+  renderSorties();
   renderProche();
   renderReassorts();
   $('#log').textContent = (S.journal||[]).slice().reverse().join('\n');
+}
+
+// ---------- Prochaines sorties
+const SORTIE_STATUT = { confirme:['Date officielle','b-ok'], probable:['Date probable','b-info'], estime:['Date estimée','b-warn'], annonce:['Annoncé, sans date','b-grey'] };
+function sortieDate(s){ return s.date ? new Date(String(s.date).slice(0,10) + 'T00:00:00') : null; }
+function joursAvant(d){ const t = new Date(); t.setHours(0,0,0,0); return Math.round((d - t) / 86400000); }
+function libelleJours(n){ return n === 0 ? "aujourd'hui" : n === 1 ? 'demain' : n > 1 ? `dans ${n} jours` : (n === -1 ? 'hier' : `il y a ${-n} jours`); }
+function sortieRow(s){
+  const d = sortieDate(s), n = d ? joursAvant(d) : null;
+  const [lbl, cls] = SORTIE_STATUT[s.statut] || [s.statut,'b-grey'];
+  const quand = d ? d.toLocaleDateString('fr-FR',{weekday:'short', day:'numeric', month:'long', year:'numeric'}) : (s.dateTexte || 'Date inconnue');
+  return `<div class="row"><div class="grow">
+    <h4>${esc(s.nom)}</h4>
+    <div class="meta"><b>${esc(quand)}</b>${n!==null?` · ${libelleJours(n)}`:''} · ${esc(s.type||'')}${s.prix?` · ${esc(s.prix)}`:''}</div>
+    <div class="meta" style="margin-top:4px"><span class="badge ${cls}">${lbl}</span> ${s.surveiller?'<span class="badge b-ok">Surveillé</span>':''}</div>
+    ${s.note?`<div class="meta" style="margin-top:4px">${esc(s.note)}</div>`:''}
+  </div>${s.source?`<a class="btn" href="${esc(s.source)}" target="_blank" rel="noopener">Source</a>`:''}</div>`;
+}
+function renderSorties(){
+  const all = ((S.sorties && S.sorties.sorties) || []).filter(Boolean);
+  const futur = all.filter(s=>{ const d = sortieDate(s); return !d || joursAvant(d) >= 0; })
+                   .sort((a,b)=>(sortieDate(a)||new Date(8.64e15)) - (sortieDate(b)||new Date(8.64e15)));
+  const passe = all.filter(s=>{ const d = sortieDate(s); return d && joursAvant(d) < 0 && joursAvant(d) >= -45; })
+                   .sort((a,b)=>sortieDate(b)-sortieDate(a));
+  $('#c-sorties').textContent = futur.length;
+  const next = futur.find(s=>sortieDate(s));
+  $('#next-release').innerHTML = next
+    ? `<div class="meta">Prochaine sortie</div><h2 style="margin:4px 0">${esc(next.nom)}</h2><div><b style="font-size:22px;color:var(--accent)">${libelleJours(joursAvant(sortieDate(next)))}</b> <span class="meta">· ${sortieDate(next).toLocaleDateString('fr-FR',{weekday:'long', day:'numeric', month:'long'})}${next.prix?' · '+esc(next.prix):''}</span></div>`
+    : '<div class="meta">Aucune sortie datée à venir dans le calendrier.</div>';
+  // regrouper par mois
+  let html = '', mois = '';
+  futur.forEach(s=>{
+    const d = sortieDate(s);
+    const m = d ? d.toLocaleDateString('fr-FR',{month:'long', year:'numeric'}) : 'Sans date';
+    if (m !== mois) { mois = m; html += `<h3 style="margin:14px 0 4px;text-transform:capitalize">${esc(m)}</h3>`; }
+    html += sortieRow(s);
+  });
+  $('#sorties').innerHTML = html || '<div class="empty">Aucune sortie à venir dans le calendrier.</div>';
+  $('#sorties-passees').innerHTML = passe.map(sortieRow).join('') || '<div class="meta">Aucune sortie ces 45 derniers jours.</div>';
 }
 
 // ---------- Près de chez moi
@@ -517,6 +569,7 @@ function renderReassorts(){
 }
 
 function badgeAlert(a){
+  if (a.type==='sortie') return '<span class="badge b-info">📅 Sortie</span>';
   if (a.type==='proche') return '<span class="badge b-ok">📍 Près de chez toi</span>';
   if (a.type==='magasin') return '<span class="badge b-ok">En magasin</span>';
   if (a.type==='prix-magasin') return '<span class="badge b-ok">Prix magasin</span>';

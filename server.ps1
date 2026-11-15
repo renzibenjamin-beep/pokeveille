@@ -126,6 +126,11 @@ $Script:History = New-Object System.Collections.ArrayList   # reassorts : retour
 $Script:SeenSources = @{}                                     # sources deja analysees au moins une fois
 $Script:Magasins = $null                                      # magasins.json : zones proches + mots-cles des communes
 $MagasinsPath = Join-Path $Root 'magasins.json'
+$SortiesPath = Join-Path $Root 'sorties.json'                 # calendrier des prochaines sorties
+$Script:Sorties = $null
+$Script:SortieMotifs = @()
+$Script:SortieRecherches = @()
+$Script:SortiesAnnoncees = @{}                                # rappels "sortie demain / aujourd'hui" deja envoyes
 
 function Load-All {
     $Script:Config = Read-Json $ConfigPath
@@ -136,6 +141,21 @@ function Load-All {
     $Script:Catalogue = Read-Json $CataloguePath
     if (-not $Script:Catalogue) { $Script:Catalogue = [pscustomobject]@{ produits = @() } }
     $Script:Magasins = Read-Json $MagasinsPath
+    $Script:Sorties = Read-Json $SortiesPath
+    # motifs et recherches des prochaines sorties a surveiller (en plus de la serie 30 ans)
+    $Script:SortieMotifs = @(@($Script:Sorties.sorties) | Where-Object { $_ -and $_.surveiller -and $_.motif } | ForEach-Object { [string]$_.motif })
+    $Script:SortieRecherches = @(@($Script:Sorties.sorties) | Where-Object { $_ -and $_.surveiller -and $_.recherche } | ForEach-Object { [string]$_.recherche })
+    # empreinte de tout ce qui determine les produits trouves (recherches, motifs, exclusions)
+    $src = $Script:Config.sources
+    $sig = (@($src.auchan.requetes) + @($src.shopify.requetes) + @($src.woocommerce.requetes) + $Script:SortieRecherches + $Script:SortieMotifs + @([string]$Script:Config.exclure)) -join '|'
+    $sha = [Security.Cryptography.SHA256]::Create()
+    $Script:QueryHash = ([BitConverter]::ToString($sha.ComputeHash($Utf8.GetBytes($sig))) -replace '-', '').Substring(0, 16)
+}
+
+# Requetes d'une source + recherches des prochaines sorties (sans doublon)
+function Get-Queries($base, [string]$prefix = '') {
+    $list = @($base) + @($Script:SortieRecherches | ForEach-Object { ($prefix + $_).Trim() })
+    return @($list | Where-Object { $_ } | Select-Object -Unique)
 }
 
 # Signalement qui mentionne une commune des zones proches (magasins.json) -> nom de la zone, sinon $null
@@ -149,6 +169,29 @@ function Find-Zone([string]$text) {
         }
     }
     return $null
+}
+
+# Rappels du calendrier : "sortie demain" (a partir de 18 h la veille) et "sortie aujourd'hui" (a partir de 8 h)
+function Check-Sorties($newAlerts) {
+    $now = Get-Date
+    foreach ($s in @($Script:Sorties.sorties)) {
+        if (-not $s -or -not $s.date) { continue }
+        $d = [datetime]::MinValue
+        if ($s.date -is [datetime]) { $d = $s.date }
+        elseif (-not [datetime]::TryParseExact(([string]$s.date).Substring(0, [math]::Min(10, ([string]$s.date).Length)), 'yyyy-MM-dd', $Inv, [Globalization.DateTimeStyles]::None, [ref]$d)) { continue }
+        $days = ($d.Date - $now.Date).Days
+        $kind = $null
+        if ($days -eq 1 -and $now.Hour -ge 18) { $kind = 'veille' }
+        elseif ($days -eq 0 -and $now.Hour -ge 8) { $kind = 'jour' }
+        if (-not $kind) { continue }
+        $k = '{0}|{1}|{2:yyyy-MM-dd}' -f $s.id, $kind, $d
+        if ($Script:SortiesAnnoncees.ContainsKey($k)) { continue }
+        $Script:SortiesAnnoncees[$k] = $true
+        $t = if ($kind -eq 'jour') { "Sortie aujourd'hui : $($s.nom)" } else { "Sortie demain : $($s.nom)" }
+        $msg = "$($s.type)" + $(if ($s.prix) { " - prix public $($s.prix)" } else { '' }) + $(if ($s.statut -ne 'confirme') { ' (date non officielle)' } else { '' })
+        [void]$newAlerts.Add((Add-Alert 'sortie' $t $msg ([string]$s.source) '' $false))
+        Write-Log $t
+    }
 }
 
 function Add-History($item, [string]$kind) {
@@ -168,7 +211,11 @@ function Load-State {
     foreach ($a in @($st.alerts)) { if ($a) { [void]$Script:Alerts.Add($a); if ($a.id -gt $Script:AlertSeq) { $Script:AlertSeq = [int]$a.id } } }
     $Script:LastScan = $st.lastScan
     foreach ($h in @($st.historique)) { if ($h) { [void]$Script:History.Add($h) } }
-    foreach ($s in @($st.sourcesVues)) { if ($s) { $Script:SeenSources[[string]$s] = $true } }
+    # sourcesVues : { source = empreinte des recherches } (l'ancien format, une simple liste, est ignore)
+    if ($st.sourcesVues -and -not ($st.sourcesVues -is [array])) {
+        foreach ($p in $st.sourcesVues.PSObject.Properties) { $Script:SeenSources[$p.Name] = [string]$p.Value }
+    }
+    foreach ($s in @($st.sortiesAnnoncees)) { if ($s) { $Script:SortiesAnnoncees[[string]$s] = $true } }
 }
 
 function Save-State {
@@ -178,7 +225,8 @@ function Save-State {
         deals    = @($Script:Deals.Values)
         alerts   = @($Script:Alerts)
         historique  = @($Script:History)
-        sourcesVues = @($Script:SeenSources.Keys)
+        sourcesVues = $Script:SeenSources
+        sortiesAnnoncees = @($Script:SortiesAnnoncees.Keys)
     }
     Write-Json $StatePath $obj
 }
@@ -202,7 +250,9 @@ function Get-Verdict($inStock, $price, $prixRef) {
 
 function Is-Relevant([string]$title, [bool]$requirePokemon) {
     $n = Normalize $title
-    if ($n -notmatch $Rx30) { return $false }
+    $match = $n -match $Rx30
+    if (-not $match) { foreach ($m in $Script:SortieMotifs) { if ($n -match $m) { $match = $true; break } } }
+    if (-not $match) { return $false }
     if ($requirePokemon -and $n -notmatch $RxPoke) { return $false }
     $ex = [string]$Script:Config.exclure
     if ($ex -and $n -match $ex) { return $false }
@@ -349,7 +399,9 @@ function Upsert-Item($src, $srcLabel, $id, $title, $url, $image, $price, $inStoc
 
     # historique des reassorts : retour en stock, ou nouvelle fiche deja en stock sur une source connue
     if ($inStock -and $prev -and -not $prev.enStock) { Add-History $item 'retour' }
-    elseif ($inStock -and -not $prev -and $Script:SeenSources.ContainsKey($src)) { Add-History $item 'nouveau' }
+    # "nouveau" seulement si cette source a deja ete analysee avec les memes recherches
+    # (sinon c'est juste un produit decouvert grace a une nouvelle recherche, pas un reassort)
+    elseif ($inStock -and -not $prev -and $Script:SeenSources[$src] -eq $Script:QueryHash) { Add-History $item 'nouveau' }
 
     $wantAlert = $false
     if ($verdict -eq 'prix-magasin' -and $prevVerdict -ne 'prix-magasin') { $wantAlert = $true }
@@ -363,7 +415,7 @@ function Upsert-Item($src, $srcLabel, $id, $title, $url, $image, $price, $inStoc
 }
 
 function Mark-Missing($src, $seenKeys) {
-    $Script:SeenSources[$src] = $true
+    $Script:SeenSources[$src] = $Script:QueryHash
     foreach ($k in @($Script:Items.Keys)) {
         $it = $Script:Items[$k]
         if ($it.source -eq $src -and -not $seenKeys.Contains($k) -and $it.enStock) {
@@ -380,7 +432,7 @@ function Scan-Auchan($newAlerts) {
     $cfg = $Script:Config.sources.auchan
     $seen = New-Object 'System.Collections.Generic.HashSet[string]'
     $count = 0
-    foreach ($q in @($cfg.requetes)) {
+    foreach ($q in (Get-Queries $cfg.requetes 'pokemon ')) {
         $res = Get-Web ('https://www.auchan.fr/recherche?text=' + [uri]::EscapeDataString($q))
         $arts = [regex]::Matches($res.Text, '(?s)<article[^>]*product-thumbnail[^>]*>.*?</article>')
         foreach ($m in $arts) {
@@ -404,7 +456,7 @@ function Scan-Auchan($newAlerts) {
         Pause-Polite
     }
     Mark-Missing 'auchan' $seen
-    return "$($seen.Count) produits 30 ans"
+    return "$($seen.Count) produits suivis"
 }
 
 function Scan-Shopify($newAlerts) {
@@ -419,7 +471,7 @@ function Scan-Shopify($newAlerts) {
         $src = "shopify:$hostName"
         $seen = New-Object 'System.Collections.Generic.HashSet[string]'
         try {
-        foreach ($q in @($cfg.requetes)) {
+        foreach ($q in (Get-Queries $cfg.requetes)) {
             $u = "$shop/search/suggest.json?q=" + [uri]::EscapeDataString($q) + '&resources[type]=product&resources[limit]=10&resources[options][unavailable_products]=last'
             $res = Get-Web $u
             $json = $res.Text | ConvertFrom-Json
@@ -442,7 +494,7 @@ function Scan-Shopify($newAlerts) {
         } catch { $errors += "$hostName ($($_.Exception.Message))"; Write-Log "[Shopify] $hostName en echec : $($_.Exception.Message)" }
     }
     $n = @($cfg.boutiques).Count
-    $txt = "$total produits 30 ans, $($n - $errors.Count)/$n boutiques"
+    $txt = "$total produits suivis, $($n - $errors.Count)/$n boutiques"
     if ($errors.Count -gt 0 -and $errors.Count -eq $n) { throw "toutes les boutiques en echec" }
     return $txt
 }
@@ -460,7 +512,7 @@ function Scan-Woo($newAlerts) {
         $src = "woo:$hostName"
         $seen = New-Object 'System.Collections.Generic.HashSet[string]'
         try {
-            foreach ($q in @($cfg.requetes)) {
+            foreach ($q in (Get-Queries $cfg.requetes)) {
                 $res = Get-Web ("$shop/wp-json/wc/store/v1/products?per_page=50&search=" + [uri]::EscapeDataString($q))
                 # (PS 5.1 ne deroule pas les tableaux JSON dans le pipeline : passer par une variable)
                 $arr = $res.Text | ConvertFrom-Json
@@ -488,7 +540,7 @@ function Scan-Woo($newAlerts) {
     }
     $n = @($cfg.boutiques).Count
     if ($errors.Count -gt 0 -and $errors.Count -eq $n) { throw "toutes les boutiques en echec" }
-    return "$total produits 30 ans, $($n - $errors.Count)/$n boutiques"
+    return "$total produits suivis, $($n - $errors.Count)/$n boutiques"
 }
 
 function Scan-Dealabs($newAlerts) {
@@ -542,7 +594,7 @@ function Scan-Dealabs($newAlerts) {
         $old = $Script:Deals.Values | Sort-Object vu | Select-Object -First ($Script:Deals.Count - 200)
         foreach ($o in $old) { $Script:Deals.Remove($o.key) }
     }
-    return "$n signalements 30 ans dans $(@($cfg.flux).Count - $errors.Count)/$(@($cfg.flux).Count) flux"
+    return "$n signalements suivis dans $(@($cfg.flux).Count - $errors.Count)/$(@($cfg.flux).Count) flux"
 }
 
 function Scan-Pages($newAlerts) {
@@ -632,6 +684,7 @@ function Run-Scan {
                 Write-Log ("[{0}] ERREUR : {1}" -f $s.label, $_.Exception.Message)
             }
         }
+        Check-Sorties $newAlerts
         $Script:LastScan = (Get-Date).ToString('s')
         Save-State
         if ($newAlerts.Count -gt 0) { Write-Log ("{0} nouvelle(s) alerte(s)" -f $newAlerts.Count) }
@@ -689,6 +742,7 @@ function Handle-Request($ctx) {
                     catalogue = $Script:Catalogue
                     historique = @($Script:History)
                     magasins = $Script:Magasins
+                    sorties = $Script:Sorties
                     journal = @($Script:Logs | Select-Object -Last 60)
                 }); break
             }
@@ -756,6 +810,7 @@ function Export-Etat([string]$path) {
         catalogue = $Script:Catalogue
         historique = @($Script:History)
         magasins = $Script:Magasins
+        sorties = $Script:Sorties
     }
     $dir = Split-Path -Parent $path
     if ($dir -and -not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir | Out-Null }
