@@ -1,5 +1,5 @@
 {
-  "genere": "2026-11-15T18:44:30",
+  "genere": "2026-11-16T04:23:27",
   "source": "OpenStreetMap (ODbL)",
   "zones": [
     {
@@ -30,18 +30,6 @@
           "site": "https://www.micromania.fr/magasin?storeid=VG",
           "horaires": "Mo-Sa 09:00-19:30",
           "telephone": "+33387818748"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 3.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.10925,
-          "lon": 6.69475,
-          "site": "https://www.action.com/fr-fr/points-de-vente/longeville-les-saint-avold-zone-du-heckenwald/",
-          "horaires": "",
-          "telephone": ""
         },
         {
           "nom": "King Jouet",
@@ -104,18 +92,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 8.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.18681,
-          "lon": 6.70196,
-          "site": "https://www.action.com/fr-fr/points-de-vente/creutzwald/",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "Centre Commercial E. Leclerc",
           "categorie": "hyper",
           "distanceKm": 9.9,
@@ -149,18 +125,6 @@
           "lon": 6.81092,
           "site": "https://www.e.leclerc/mag/e-leclerc-freyming",
           "horaires": "Mo-Sa 08:00-19:30; PH,Su closed",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 12.6,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.17899,
-          "lon": 6.49687,
-          "site": "https://www.action.com/fr-fr/points-de-vente/boulay-moselle-rue-du-general-newinger/",
-          "horaires": "",
           "telephone": ""
         },
         {
@@ -224,18 +188,6 @@
           "telephone": "+33 3 87 90 30 70"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 18.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.17835,
-          "lon": 6.87859,
-          "site": "https://www.action.com/fr-fr/points-de-vente/forbach-zl-de-leurope/",
-          "horaires": "Tu-Sa 08:30-18:45",
-          "telephone": ""
-        },
-        {
           "nom": "Carrefour",
           "categorie": "hyper",
           "distanceKm": 18.6,
@@ -296,18 +248,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 21.3,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.28339,
-          "lon": 6.78546,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "Intermarché",
           "categorie": "hyper",
           "distanceKm": 21.3,
@@ -318,18 +258,6 @@
           "site": "https://www.intermarche.com/magasins/12570/puttelange-aux-lacs-57510/infos-pratiques",
           "horaires": "Mo-Sa 08:00-19:30; PH off",
           "telephone": "+33 3 87 09 61 31"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 21.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.24901,
-          "lon": 6.85484,
-          "site": "",
-          "horaires": "Mo-Sa 09:00-20:00; Su,PH off",
-          "telephone": ""
         },
         {
           "nom": "Super U",
@@ -377,18 +305,6 @@
           "lon": 6.74084,
           "site": "",
           "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 28.7,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.23968,
-          "lon": 6.98912,
-          "site": "",
-          "horaires": "Mo-Sa 09:00-20:00; PH,Su closed",
           "telephone": ""
         },
         {
@@ -440,18 +356,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 29.2,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.13379,
-          "lon": 7.04262,
-          "site": "https://www.action.com/fr-fr/points-de-vente/grosbliederstroff-route-de-sarreguemines/",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "Carrefour",
           "categorie": "hyper",
           "distanceKm": 29.4,
@@ -462,18 +366,6 @@
           "site": "https://www.carrefour.fr/magasin/grosbliederstroff",
           "horaires": "Mo-Sa 08:00-20:00; PH,Su closed",
           "telephone": "+33 3 87 27 65 00"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 29.8,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.10949,
-          "lon": 6.23235,
-          "site": "https://www.action.com/fr-fr/points-de-vente/metz---borny-20-avenue-sebastopol-zac--metzanine/",
-          "horaires": "Mo-Sa 09:30-19:30",
-          "telephone": ""
         },
         {
           "nom": "Micromania",
@@ -572,18 +464,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 32.3,
-          "ville": "Sarreguemines",
-          "adresse": "6 Rue des Ormes",
-          "lat": 49.11793,
-          "lon": 7.0856,
-          "site": "https://www.action.com/fr-fr/points-de-vente/sarreguemines-rue-des-ormes/",
-          "horaires": "Mo-Sa 08:30-19:30",
-          "telephone": ""
-        },
-        {
           "nom": "Super U",
           "categorie": "hyper",
           "distanceKm": 32.4,
@@ -632,30 +512,6 @@
           "telephone": "+33 3 87 72 36 83"
         },
         {
-          "nom": "Micromania",
-          "categorie": "culture",
-          "distanceKm": 33.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.10637,
-          "lon": 6.18239,
-          "site": "https://www.micromania.fr/magasin?storeid=HM",
-          "horaires": "Mo-Sa 10:00-20:00",
-          "telephone": "+33 3 87 74 70 01"
-        },
-        {
-          "nom": "Playin Metz",
-          "categorie": "jeux",
-          "distanceKm": 33.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.10727,
-          "lon": 6.18135,
-          "site": "https://www.play-in.com/fr/magasin/10/metz",
-          "horaires": "Mo-Sa 10:00-20:00",
-          "telephone": "+33 7 49 65 43 70"
-        },
-        {
           "nom": "Intermarché Super",
           "categorie": "hyper",
           "distanceKm": 33.5,
@@ -666,6 +522,18 @@
           "site": "https://www.intermarche.com/magasins/02445/metz-57000/infos-pratiques",
           "horaires": "Mo-Sa 08:30-19:30",
           "telephone": "+33 3 87 56 13 05"
+        },
+        {
+          "nom": "Micromania",
+          "categorie": "culture",
+          "distanceKm": 33.5,
+          "ville": "",
+          "adresse": "",
+          "lat": 49.10637,
+          "lon": 6.18239,
+          "site": "https://www.micromania.fr/magasin?storeid=HM",
+          "horaires": "Mo-Sa 10:00-20:00",
+          "telephone": "+33 3 87 74 70 01"
         },
         {
           "nom": "E.Leclerc",
@@ -692,16 +560,16 @@
           "telephone": "+33 1 89 54 71 16"
         },
         {
-          "nom": "Ludotrotter",
+          "nom": "Playin Metz",
           "categorie": "jeux",
-          "distanceKm": 33.6,
+          "distanceKm": 33.5,
           "ville": "",
           "adresse": "",
-          "lat": 49.11535,
-          "lon": 6.1799,
-          "site": "https://ludotrotter.fr",
-          "horaires": "",
-          "telephone": ""
+          "lat": 49.10727,
+          "lon": 6.18135,
+          "site": "https://www.play-in.com/fr/magasin/10/metz",
+          "horaires": "Mo-Sa 10:00-20:00",
+          "telephone": "+33 7 49 65 43 70"
         },
         {
           "nom": "Intermarché",
@@ -711,8 +579,20 @@
           "adresse": "",
           "lat": 48.81886,
           "lon": 6.72149,
-          "site": "https://www.intermarche.com/magasins/05352/dieuze-57260/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-19:30",
+          "site": "",
+          "horaires": "",
+          "telephone": ""
+        },
+        {
+          "nom": "Ludotrotter",
+          "categorie": "jeux",
+          "distanceKm": 33.6,
+          "ville": "",
+          "adresse": "",
+          "lat": 49.11535,
+          "lon": 6.1799,
+          "site": "https://ludotrotter.fr",
+          "horaires": "",
           "telephone": ""
         },
         {
@@ -740,18 +620,6 @@
           "telephone": ""
         },
         {
-          "nom": "Warhammer",
-          "categorie": "jeux",
-          "distanceKm": 33.8,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.11849,
-          "lon": 6.17765,
-          "site": "https://www.warhammer.com/fr-FR/home",
-          "horaires": "Mo,Th 13:30-18:30; Tu-We,Fr 10:00-12:30,13:30-19:00; Sa 10:00-19:00",
-          "telephone": "+33 3 87 74 66 20"
-        },
-        {
           "nom": "King Jouet",
           "categorie": "jouets",
           "distanceKm": 33.8,
@@ -776,16 +644,16 @@
           "telephone": "+33 3 87 74 02 90"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
+          "nom": "Warhammer",
+          "categorie": "jeux",
           "distanceKm": 33.8,
           "ville": "",
           "adresse": "",
-          "lat": 49.11819,
-          "lon": 6.17751,
-          "site": "https://www.action.com/fr-fr/points-de-vente/metz/",
-          "horaires": "",
-          "telephone": ""
+          "lat": 49.11849,
+          "lon": 6.17765,
+          "site": "https://www.warhammer.com/fr-FR/home",
+          "horaires": "Mo,Th 13:30-18:30; Tu-We,Fr 10:00-12:30,13:30-19:00; Sa 10:00-19:00",
+          "telephone": "+33 3 87 74 66 20"
         },
         {
           "nom": "Kid's en Scène",
@@ -812,18 +680,6 @@
           "telephone": "+33 3 87 18 42 08"
         },
         {
-          "nom": "Stargame",
-          "categorie": "culture",
-          "distanceKm": 34.2,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.11904,
-          "lon": 6.17215,
-          "site": "",
-          "horaires": "Mo,Su off; Tu-Sa 10:00-12:00,14:00-19:00",
-          "telephone": "+33 3 87 17 07 05"
-        },
-        {
           "nom": "Gundokai",
           "categorie": "jouets",
           "distanceKm": 34.2,
@@ -846,6 +702,18 @@
           "site": "https://www.e.leclerc/mag/e-leclerc-woippy",
           "horaires": "Mo-Fr 08:30-20:30; Sa 08:30-20:00",
           "telephone": "+33 3 54 17 09 50"
+        },
+        {
+          "nom": "Stargame",
+          "categorie": "culture",
+          "distanceKm": 34.2,
+          "ville": "",
+          "adresse": "",
+          "lat": 49.11904,
+          "lon": 6.17215,
+          "site": "",
+          "horaires": "Mo,Su off; Tu-Sa 10:00-12:00,14:00-19:00",
+          "telephone": "+33 3 87 17 07 05"
         },
         {
           "nom": "Agence Chris' Numismatique",
@@ -908,18 +776,6 @@
           "telephone": "+33 387805333"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 36.3,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.44277,
-          "lon": 6.64118,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "Spielwiese",
           "categorie": "jouets",
           "distanceKm": 36.3,
@@ -944,18 +800,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 36.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.0681,
-          "lon": 6.13971,
-          "site": "https://www.action.com/fr-fr/points-de-vente/marly-les-metz-rue-de-la-belle-fontaine/",
-          "horaires": "Mo-Sa 08:30-19:30",
-          "telephone": ""
-        },
-        {
           "nom": "Concept Jouet & Puériculture - E.Leclerc Marly",
           "categorie": "hyper",
           "distanceKm": 36.9,
@@ -965,18 +809,6 @@
           "lon": 6.14021,
           "site": "",
           "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Micromania",
-          "categorie": "culture",
-          "distanceKm": 37.0,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.19461,
-          "lon": 6.14681,
-          "site": "https://www.micromania.fr/magasin?storeid=MZ",
-          "horaires": "Mo-Sa 09:30-20:00",
           "telephone": ""
         },
         {
@@ -992,15 +824,15 @@
           "telephone": ""
         },
         {
-          "nom": "E. Leclerc Express",
-          "categorie": "hyper",
-          "distanceKm": 37.1,
+          "nom": "Micromania",
+          "categorie": "culture",
+          "distanceKm": 37.0,
           "ville": "",
           "adresse": "",
-          "lat": 49.21218,
-          "lon": 6.15207,
-          "site": "https://www.e.leclerc/mag/e-leclerc-express-maizieres-les-metz",
-          "horaires": "Mo-Sa 08:30-19:30",
+          "lat": 49.19461,
+          "lon": 6.14681,
+          "site": "https://www.micromania.fr/magasin?storeid=MZ",
+          "horaires": "Mo-Sa 09:30-20:00",
           "telephone": ""
         },
         {
@@ -1016,15 +848,15 @@
           "telephone": "+33 3 87 60 34 84"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
+          "nom": "E. Leclerc Express",
+          "categorie": "hyper",
           "distanceKm": 37.1,
           "ville": "",
           "adresse": "",
-          "lat": 49.19036,
-          "lon": 6.14482,
-          "site": "https://www.action.com/fr-fr/points-de-vente/semecourt-rue-du-pre-des-meuniers/",
-          "horaires": "",
+          "lat": 49.21218,
+          "lon": 6.15207,
+          "site": "https://www.e.leclerc/mag/e-leclerc-express-maizieres-les-metz",
+          "horaires": "Mo-Sa 08:30-19:30",
           "telephone": ""
         },
         {
@@ -1050,18 +882,6 @@
           "site": "https://www.carrefour.fr/magasin/mondelange",
           "horaires": "Mo-Sa 08:00-20:30",
           "telephone": "+33 3 87 71 91 52"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 37.7,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.25992,
-          "lon": 6.17143,
-          "site": "https://www.action.com/fr-fr/points-de-vente/mondelange-boucle-de-la-sente/",
-          "horaires": "",
-          "telephone": ""
         },
         {
           "nom": "Carrefour Market",
@@ -1112,27 +932,15 @@
           "telephone": "+33 3 87 15 27 50"
         },
         {
-          "nom": "Centre Commercial E. Leclerc",
+          "nom": "Centre commercial E. Leclerc",
           "categorie": "hyper",
           "distanceKm": 39.1,
           "ville": "",
           "adresse": "",
           "lat": 48.93066,
           "lon": 7.09656,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 39.2,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.07686,
-          "lon": 6.10613,
-          "site": "https://www.action.com/fr-fr/points-de-vente/metz---augny-zac-daugny/",
-          "horaires": "",
+          "site": "https://www.e.leclerc/mag/e-leclerc-sarre-union",
+          "horaires": "Mo-Sa 08:00-20:00",
           "telephone": ""
         },
         {
@@ -1181,18 +989,6 @@
           "lon": 6.10194,
           "site": "https://www.e.leclerc/mag/e-leclerc-express-rombas",
           "horaires": "Mo-Sa 08:30-19:30",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 41.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.36617,
-          "lon": 6.20927,
-          "site": "https://www.action.com/fr-fr/points-de-vente/yutz-173-avenue-des-nations/",
-          "horaires": "",
           "telephone": ""
         },
         {
@@ -1256,18 +1052,6 @@
           "telephone": "+33 3 82 82 20 50"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 43.6,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.3064,
-          "lon": 6.11562,
-          "site": "https://www.action.com/fr-fr/points-de-vente/fameck-13-avenue-de-metz/",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "L'antre Temps",
           "categorie": "jeux",
           "distanceKm": 43.8,
@@ -1324,7 +1108,7 @@
           "lat": 48.93851,
           "lon": 7.19009,
           "site": "https://www.magasins-u.com/magasin/superu-diemeringen",
-          "horaires": "Mo-Th 08:30-19:00; Fr 08:30-19:30; Sa 08:30-19:00",
+          "horaires": "Mo-Th 08:00-19:30; Fr 08:00-20:00; Sa 08:00-19:00",
           "telephone": "+33 3 88 00 48 48"
         },
         {
@@ -1376,18 +1160,6 @@
           "telephone": "+33 3 82 86 00 53"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 45.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.34725,
-          "lon": 6.12646,
-          "site": "https://www.action.com/fr-fr/points-de-vente/thionville-terville-avenue-du-14-juillet-1789-parc-commercial-super-green/",
-          "horaires": "Mo-Sa 09:00-19:00",
-          "telephone": "+33 1 55 56 41 40"
-        },
-        {
           "nom": "E.Leclerc Express",
           "categorie": "hyper",
           "distanceKm": 45.5,
@@ -1424,18 +1196,6 @@
           "telephone": "+33 9 39 03 03 65"
         },
         {
-          "nom": "King Jouet",
-          "categorie": "jouets",
-          "distanceKm": 45.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.35623,
-          "lon": 6.12683,
-          "site": "https://www.king-jouet.com/magasins/57-Moselle/magasin-TERVILLE--ex-Maxi-Toys--1101.htm",
-          "horaires": "Mo-Sa 09:30-19:00",
-          "telephone": "+33 3 82 34 55 72"
-        },
-        {
           "nom": "E.Leclerc",
           "categorie": "hyper",
           "distanceKm": 45.9,
@@ -1446,6 +1206,18 @@
           "site": "https://www.e.leclerc/mag/e-leclerc-thionville",
           "horaires": "Mo-Sa 08:30-20:30",
           "telephone": "+33 3 82 59 00 00"
+        },
+        {
+          "nom": "King Jouet",
+          "categorie": "jouets",
+          "distanceKm": 45.9,
+          "ville": "",
+          "adresse": "",
+          "lat": 49.35623,
+          "lon": 6.12683,
+          "site": "https://www.king-jouet.com/magasins/57-Moselle/magasin-TERVILLE--ex-Maxi-Toys--1101.htm",
+          "horaires": "Mo-Sa 09:30-19:00",
+          "telephone": "+33 3 82 34 55 72"
         },
         {
           "nom": "Smyths",
@@ -1467,18 +1239,6 @@
           "adresse": "",
           "lat": 49.35012,
           "lon": 7.17445,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 47.0,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.24035,
-          "lon": 7.26053,
           "site": "",
           "horaires": "",
           "telephone": ""
@@ -1508,16 +1268,16 @@
           "telephone": "+33 3 87 09 79 09"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
+          "nom": "Intermarché Super",
+          "categorie": "hyper",
           "distanceKm": 47.8,
-          "ville": "Sainte-Marie-aux-Chênes",
-          "adresse": "Rue de Briey",
-          "lat": 49.19759,
-          "lon": 5.9962,
-          "site": "https://www.action.com/fr-fr/points-de-vente/sainte-marie-aux-chenes-rue-de-briey/",
-          "horaires": "Mo-Sa 08:30-19:30; Su off",
-          "telephone": ""
+          "ville": "",
+          "adresse": "",
+          "lat": 48.92101,
+          "lon": 6.05851,
+          "site": "https://www.intermarche.com/magasins/02117/pont-%C3%A0-mousson-54700/infos-pratiques",
+          "horaires": "Mo-Sa 08:00-19:30; Su 08:00-12:30",
+          "telephone": "+33 3 83824888"
         },
         {
           "nom": "King Jouet",
@@ -1530,18 +1290,6 @@
           "site": "",
           "horaires": "",
           "telephone": ""
-        },
-        {
-          "nom": "Intermarché Super",
-          "categorie": "hyper",
-          "distanceKm": 47.8,
-          "ville": "",
-          "adresse": "",
-          "lat": 48.92101,
-          "lon": 6.05851,
-          "site": "https://www.intermarche.com/magasins/02117/pont-%C3%A0-mousson-54700/infos-pratiques",
-          "horaires": "Mo-Sa 08:00-19:30; Su 08:00-12:30",
-          "telephone": "+33 3 83824888"
         },
         {
           "nom": "Intermarché",
@@ -1592,18 +1340,6 @@
           "telephone": "+33 3 88 00 76 76"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 48.8,
-          "ville": "",
-          "adresse": "",
-          "lat": 49.33238,
-          "lon": 6.05596,
-          "site": "https://www.action.com/fr-fr/points-de-vente/hayange-espace-saint-jacques-no-number/",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "New Game",
           "categorie": "culture",
           "distanceKm": 49.2,
@@ -1625,18 +1361,6 @@
           "lon": 6.04231,
           "site": "https://www.intermarche.com/magasins/01986/pont-a-mousson-54700/infos-pratiques",
           "horaires": "Mo-Sa 08:00-20:00",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 49.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 48.91073,
-          "lon": 6.04055,
-          "site": "https://www.action.com/fr-fr/points-de-vente/pont-a-mousson-rd-952---route-de-briey/",
-          "horaires": "Mo-Sa 08:30-19:30",
           "telephone": ""
         }
       ],
@@ -1684,7 +1408,6 @@
         "Saarbrücken",
         "Saarlouis",
         "Saint-Avold",
-        "Sainte-Marie-aux-Chênes",
         "Sankt Wendel",
         "Sarrebourg",
         "Sarreguemines",
@@ -1711,18 +1434,6 @@
       "rayonKm": 50,
       "magasins": [
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 4.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.6715,
-          "lon": 5.08224,
-          "site": "https://www.action-karting.fr/",
-          "horaires": "Mo-Fr 09:00-12:00,14:00-18:00; Sa 09:00-16:00",
-          "telephone": "+334 78 40 05 05"
-        },
-        {
           "nom": "Fnac",
           "categorie": "culture",
           "distanceKm": 4.7,
@@ -1735,18 +1446,6 @@
           "telephone": ""
         },
         {
-          "nom": "Lego",
-          "categorie": "jouets",
-          "distanceKm": 4.8,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.71639,
-          "lon": 5.07775,
-          "site": "",
-          "horaires": "Mo-Su 06:15-21:15",
-          "telephone": ""
-        },
-        {
           "nom": "Looping",
           "categorie": "jouets",
           "distanceKm": 4.8,
@@ -1756,6 +1455,18 @@
           "lon": 5.07767,
           "site": "",
           "horaires": "We-Mo 06:00-20:15; Tu 06:00-20:00",
+          "telephone": ""
+        },
+        {
+          "nom": "Lego",
+          "categorie": "jouets",
+          "distanceKm": 4.8,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.71639,
+          "lon": 5.07775,
+          "site": "",
+          "horaires": "Mo-Su 06:15-21:15",
           "telephone": ""
         },
         {
@@ -1783,18 +1494,6 @@
           "telephone": "+33 4 48 04 19 60"
         },
         {
-          "nom": "Carrefour Market",
-          "categorie": "hyper",
-          "distanceKm": 6.7,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.63572,
-          "lon": 5.10928,
-          "site": "https://www.carrefour.fr/magasin/market-saint-quentin-fallavier",
-          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
-          "telephone": "+33 4 74 94 50 58"
-        },
-        {
           "nom": "Carrefour",
           "categorie": "hyper",
           "distanceKm": 6.7,
@@ -1805,6 +1504,18 @@
           "site": "",
           "horaires": "",
           "telephone": ""
+        },
+        {
+          "nom": "Carrefour Market",
+          "categorie": "hyper",
+          "distanceKm": 6.7,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.63572,
+          "lon": 5.10928,
+          "site": "https://www.carrefour.fr/magasin/market-saint-quentin-fallavier",
+          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
+          "telephone": "+33 4 74 94 50 58"
         },
         {
           "nom": "Centre Commercial E.Leclerc",
@@ -1843,18 +1554,6 @@
           "telephone": "+33 4 78 32 10 60"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 7.5,
-          "ville": "",
-          "adresse": "18 Rue du Bochet",
-          "lat": 45.74851,
-          "lon": 5.18636,
-          "site": "https://www.action.com/fr-fr/points-de-vente/tignieu-jameyzieu-18-rue-du-bochet-batiment-c-centre-dauphine/",
-          "horaires": "Mo-Sa 08:30-19:30",
-          "telephone": ""
-        },
-        {
           "nom": "Intermarché",
           "categorie": "hyper",
           "distanceKm": 8.9,
@@ -1865,18 +1564,6 @@
           "site": "https://www.intermarche.com/magasins/06677/saint-bonnet-de-mure-69720/infos-pratiques",
           "horaires": "Mo-Sa 08:30-20:00; Su 09:00-12:30",
           "telephone": "+33437257400"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 9.1,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.69952,
-          "lon": 5.01283,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
         },
         {
           "nom": "Intermarché",
@@ -1975,18 +1662,6 @@
           "telephone": "+33 6 49 19 41 88"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 11.3,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.61649,
-          "lon": 5.2243,
-          "site": "https://www.action.com/fr-fr/points-de-vente/isle-dabeau-boulevard-de-larbonnas/",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "Carrefour",
           "categorie": "hyper",
           "distanceKm": 11.6,
@@ -2035,16 +1710,16 @@
           "telephone": "+33 4 78 31 53 97"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 12.6,
+          "nom": "Carrefour Market",
+          "categorie": "hyper",
+          "distanceKm": 13.0,
           "ville": "",
           "adresse": "",
-          "lat": 45.71206,
-          "lon": 4.97039,
-          "site": "https://www.action.com/fr-fr/points-de-vente/saint-priest-179-route-de-grenoble/",
-          "horaires": "",
-          "telephone": ""
+          "lat": 45.73517,
+          "lon": 4.97356,
+          "site": "https://www.carrefour.fr/magasin/market-chassieu",
+          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
+          "telephone": "+33 4 78 90 64 04"
         },
         {
           "nom": "Carrefour Market",
@@ -2059,18 +1734,6 @@
           "telephone": "+33 4 72 02 26 40"
         },
         {
-          "nom": "Carrefour Market",
-          "categorie": "hyper",
-          "distanceKm": 13.0,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.73517,
-          "lon": 4.97356,
-          "site": "https://www.carrefour.fr/magasin/market-chassieu",
-          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
-          "telephone": "+33 4 78 90 64 04"
-        },
-        {
           "nom": "Vega Store",
           "categorie": "jeux",
           "distanceKm": 13.3,
@@ -2081,18 +1744,6 @@
           "site": "https://vegastore.fr/",
           "horaires": "",
           "telephone": ""
-        },
-        {
-          "nom": "Intermarché",
-          "categorie": "hyper",
-          "distanceKm": 13.7,
-          "ville": "",
-          "adresse": "80 Rue Joseph Desbois",
-          "lat": 45.78165,
-          "lon": 5.00675,
-          "site": "https://www.intermarche.com/magasins/10461/meyzieu-69330/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-19:30; Su 08:30-12:15",
-          "telephone": "+33 4 78 04 10 70"
         },
         {
           "nom": "Centre Commercial E.Leclerc",
@@ -2109,6 +1760,18 @@
         {
           "nom": "Intermarché",
           "categorie": "hyper",
+          "distanceKm": 13.7,
+          "ville": "",
+          "adresse": "80 Rue Joseph Desbois",
+          "lat": 45.78165,
+          "lon": 5.00675,
+          "site": "https://www.intermarche.com/magasins/10461/meyzieu-69330/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:30; Su 08:30-12:15",
+          "telephone": "+33 4 78 04 10 70"
+        },
+        {
+          "nom": "Intermarché",
+          "categorie": "hyper",
           "distanceKm": 14.2,
           "ville": "",
           "adresse": "",
@@ -2117,18 +1780,6 @@
           "site": "https://www.intermarche.com/magasins/10679/chassieu-69680/infos-pratiques",
           "horaires": "Mo-Sa 08:30-20:00; Su 09:00-12:30",
           "telephone": "+33 4 78 90 12 25"
-        },
-        {
-          "nom": "JouéClub",
-          "categorie": "jouets",
-          "distanceKm": 14.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.59061,
-          "lon": 5.24124,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
         },
         {
           "nom": "Intermarché",
@@ -2140,6 +1791,18 @@
           "lon": 5.241,
           "site": "https://www.intermarche.com/magasins/03874/domarin-38300/infos-pratiques",
           "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
+          "telephone": ""
+        },
+        {
+          "nom": "JouéClub",
+          "categorie": "jouets",
+          "distanceKm": 14.4,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.59061,
+          "lon": 5.24124,
+          "site": "",
+          "horaires": "",
           "telephone": ""
         },
         {
@@ -2239,18 +1902,6 @@
           "telephone": ""
         },
         {
-          "nom": "Centre commercial E. Leclerc",
-          "categorie": "hyper",
-          "distanceKm": 16.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.69925,
-          "lon": 4.91952,
-          "site": "https://www.e.leclerc/mag/e-leclerc-saint-priest",
-          "horaires": "Mo-Sa 08:30-20:00",
-          "telephone": ""
-        },
-        {
           "nom": "MiniVerse",
           "categorie": "jeux",
           "distanceKm": 16.4,
@@ -2263,6 +1914,18 @@
           "telephone": ""
         },
         {
+          "nom": "Centre commercial E. Leclerc",
+          "categorie": "hyper",
+          "distanceKm": 16.4,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.69925,
+          "lon": 4.91952,
+          "site": "https://www.e.leclerc/mag/e-leclerc-saint-priest",
+          "horaires": "Mo-Sa 08:30-20:00",
+          "telephone": ""
+        },
+        {
           "nom": "Centre Commercial E.Leclerc",
           "categorie": "hyper",
           "distanceKm": 16.4,
@@ -2272,18 +1935,6 @@
           "lon": 4.92878,
           "site": "https://www.e.leclerc/mag/e-leclerc-chaponnay",
           "horaires": "Mo-Sa 08:30-20:00",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 16.5,
-          "ville": "",
-          "adresse": "8 Esplanade de la Folatière",
-          "lat": 45.58896,
-          "lon": 5.28032,
-          "site": "https://www.action.com/fr-fr/points-de-vente/bourgoin-jallieu-place-de-la-folatiere-8/",
-          "horaires": "Mo-Sa 08:30-19:30",
           "telephone": ""
         },
         {
@@ -2335,18 +1986,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 16.6,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.74714,
-          "lon": 4.93092,
-          "site": "https://www.action.com/fr-fr/points-de-vente/vaulx-en-velin-236-av.-franklin-roosevelt/",
-          "horaires": "Mo-Sa 08:30-20:00",
-          "telephone": ""
-        },
-        {
           "nom": "Carrefour",
           "categorie": "hyper",
           "distanceKm": 16.6,
@@ -2356,18 +1995,6 @@
           "lon": 4.9296,
           "site": "https://www.carrefour.fr/magasin/vaulx-en-velin",
           "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:30",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 16.6,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.72109,
-          "lon": 4.92029,
-          "site": "https://www.action.com/fr-fr/points-de-vente/bron-rue-paul-langevin-11/",
-          "horaires": "Mo-Sa 08:30-20:00",
           "telephone": ""
         },
         {
@@ -2391,18 +2018,6 @@
           "lat": 45.82342,
           "lon": 4.99652,
           "site": "https://www.king-jouet.com/magasins/01-Ain/magasin-Beynost-1109.htm",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 17.8,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.8226,
-          "lon": 4.99417,
-          "site": "https://www.action.com/fr-fr/points-de-vente/beynost-rue-du-pre-caillat/",
           "horaires": "",
           "telephone": ""
         },
@@ -2443,18 +2058,6 @@
           "telephone": ""
         },
         {
-          "nom": "E.Leclerc",
-          "categorie": "hyper",
-          "distanceKm": 18.0,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.82629,
-          "lon": 4.99553,
-          "site": "https://www.e.leclerc/mag/e-leclerc-beynost",
-          "horaires": "Mo-Sa 08:30-20:30; Su 08:30-12:30",
-          "telephone": "+33 4 72 01 32 01"
-        },
-        {
           "nom": "Leclerc Culture",
           "categorie": "hyper",
           "distanceKm": 18.0,
@@ -2465,6 +2068,18 @@
           "site": "",
           "horaires": "",
           "telephone": ""
+        },
+        {
+          "nom": "E.Leclerc",
+          "categorie": "hyper",
+          "distanceKm": 18.0,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.82629,
+          "lon": 4.99553,
+          "site": "https://www.e.leclerc/mag/e-leclerc-beynost",
+          "horaires": "Mo-Sa 08:30-20:30; Su 08:30-12:30",
+          "telephone": "+33 4 72 01 32 01"
         },
         {
           "nom": "Intermarché Super",
@@ -2611,18 +2226,6 @@
           "telephone": "+33 9 53 24 45 99"
         },
         {
-          "nom": "Carrefour",
-          "categorie": "hyper",
-          "distanceKm": 20.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.76959,
-          "lon": 4.88376,
-          "site": "https://www.carrefour.fr/magasin/villeurbanne",
-          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:30",
-          "telephone": "+33 4 72 65 87 79"
-        },
-        {
           "nom": "Intermarché Super",
           "categorie": "hyper",
           "distanceKm": 20.9,
@@ -2635,6 +2238,18 @@
           "telephone": "+33 4 72 78 02 00"
         },
         {
+          "nom": "Carrefour",
+          "categorie": "hyper",
+          "distanceKm": 20.9,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.76959,
+          "lon": 4.88376,
+          "site": "https://www.carrefour.fr/magasin/villeurbanne",
+          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:30",
+          "telephone": "+33 4 72 65 87 79"
+        },
+        {
           "nom": "Super U",
           "categorie": "hyper",
           "distanceKm": 21.0,
@@ -2645,18 +2260,6 @@
           "site": "https://www.magasins-u.com/magasin/superu-lyonmaisonsneuves",
           "horaires": "Mo-Sa 08:30-20:30, Su 08:30-12:30",
           "telephone": "+33 4 72 91 80 20"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 21.0,
-          "ville": "Lyon",
-          "adresse": "322 Avenue Berthelot",
-          "lat": 45.73713,
-          "lon": 4.86636,
-          "site": "https://www.action.com/fr-fr/points-de-vente/lyon-berthelot-avenue-berthelot-322/",
-          "horaires": "Mo-Sa 08:30-20:00",
-          "telephone": ""
         },
         {
           "nom": "Le Monde en Jeux",
@@ -2690,7 +2293,7 @@
           "adresse": "",
           "lat": 45.50194,
           "lon": 5.12877,
-          "site": "",
+          "site": "https://www.auchan.fr/magasins/supermarche/auchan-supermarche-saint-jean-de-bournay/s-934",
           "horaires": "Mo-Sa 08:00-19:30; Su 09:00-12:30",
           "telephone": ""
         },
@@ -2707,18 +2310,6 @@
           "telephone": ""
         },
         {
-          "nom": "Carrefour Market",
-          "categorie": "hyper",
-          "distanceKm": 21.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.70829,
-          "lon": 4.85447,
-          "site": "https://www.carrefour.fr/magasin/market-saint-fons",
-          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
-          "telephone": "+33 4 72 89 10 59"
-        },
-        {
           "nom": "Intermarché",
           "categorie": "hyper",
           "distanceKm": 21.5,
@@ -2729,6 +2320,18 @@
           "site": "https://www.intermarche.com/magasins/06711/villeurbanne-69100/infos-pratiques",
           "horaires": "Mo-Sa 08:30-21:00; Su 09:00-13:00",
           "telephone": ""
+        },
+        {
+          "nom": "Carrefour Market",
+          "categorie": "hyper",
+          "distanceKm": 21.5,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.70829,
+          "lon": 4.85447,
+          "site": "https://www.carrefour.fr/magasin/market-saint-fons",
+          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
+          "telephone": "+33 4 72 89 10 59"
         },
         {
           "nom": "Kame Geek",
@@ -2750,8 +2353,8 @@
           "adresse": "",
           "lat": 45.49939,
           "lon": 5.13728,
-          "site": "",
-          "horaires": "Mo-Sa 08:30-19:15; Su 09:00-12:30",
+          "site": "https://www.intermarche.com/magasins/10129/saint-jean-de-bournay-38440/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
           "telephone": ""
         },
         {
@@ -2779,18 +2382,6 @@
           "telephone": "+33 4 78 93 61 09"
         },
         {
-          "nom": "Fnac",
-          "categorie": "culture",
-          "distanceKm": 22.1,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.76026,
-          "lon": 4.86114,
-          "site": "",
-          "horaires": "Mo-Th,Sa 07:00-20:00; Fr 07:00-21:00; Su,PH 10:00-20:00",
-          "telephone": ""
-        },
-        {
           "nom": "Intermarché",
           "categorie": "hyper",
           "distanceKm": 22.1,
@@ -2801,6 +2392,18 @@
           "site": "https://www.intermarche.com/magasins/07583/villeurbanne-69100/infos-pratiques",
           "horaires": "Mo-Sa 08:30-20:30; Su 08:30-13:00",
           "telephone": "+33 4 72 44 22 63"
+        },
+        {
+          "nom": "Fnac",
+          "categorie": "culture",
+          "distanceKm": 22.1,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.76026,
+          "lon": 4.86114,
+          "site": "",
+          "horaires": "Mo-Th,Sa 07:00-20:00; Fr 07:00-21:00; Su,PH 10:00-20:00",
+          "telephone": ""
         },
         {
           "nom": "Auchan Supermarché",
@@ -2851,6 +2454,18 @@
           "telephone": "+33 9 86 36 43 45"
         },
         {
+          "nom": "Micromania",
+          "categorie": "culture",
+          "distanceKm": 22.5,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.76173,
+          "lon": 4.85648,
+          "site": "https://www.micromania.fr/magasin?storeid=LY",
+          "horaires": "Mo-Sa 09:30-20:00",
+          "telephone": "+33 4 78 60 78 82"
+        },
+        {
           "nom": "Fnac",
           "categorie": "culture",
           "distanceKm": 22.5,
@@ -2875,28 +2490,16 @@
           "telephone": ""
         },
         {
-          "nom": "Micromania",
-          "categorie": "culture",
-          "distanceKm": 22.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.76173,
-          "lon": 4.85648,
-          "site": "https://www.micromania.fr/magasin?storeid=LY",
-          "horaires": "Mo-Sa 09:30-20:00",
-          "telephone": "+33 4 78 60 78 82"
-        },
-        {
-          "nom": "Intermarché",
-          "categorie": "hyper",
+          "nom": "La Grande Récré",
+          "categorie": "jouets",
           "distanceKm": 22.6,
           "ville": "",
-          "adresse": "377 Rue Garibaldi",
-          "lat": 45.74418,
-          "lon": 4.84826,
-          "site": "https://www.intermarche.com/magasins/07801/lyon-69007/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-20:30; Su 09:00-20:00",
-          "telephone": "+33 4 37 65 40 07"
+          "adresse": "",
+          "lat": 45.76202,
+          "lon": 4.85612,
+          "site": "https://www.lagranderecre.fr/",
+          "horaires": "Mo-Sa 09:30-20:00",
+          "telephone": "+33 4 72 61 89 19"
         },
         {
           "nom": "Lego",
@@ -2911,30 +2514,6 @@
           "telephone": "+33 4 51 64 02 26"
         },
         {
-          "nom": "Warhammer",
-          "categorie": "jeux",
-          "distanceKm": 22.6,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.76532,
-          "lon": 4.85692,
-          "site": "",
-          "horaires": "Tu-Fr 12:00-18:00; Sa 10:00-13:00,14:00-18:00",
-          "telephone": "+33 4 78 26 28 77"
-        },
-        {
-          "nom": "La Grande Récré",
-          "categorie": "jouets",
-          "distanceKm": 22.6,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.76202,
-          "lon": 4.85612,
-          "site": "https://www.lagranderecre.fr/",
-          "horaires": "Mo-Sa 09:30-20:00",
-          "telephone": "+33 4 72 61 89 19"
-        },
-        {
           "nom": "Tsukimi",
           "categorie": "jeux",
           "distanceKm": 22.6,
@@ -2945,6 +2524,30 @@
           "site": "https://www.bubblebd.com/tsukimi/store/ipEnq3Jdl8fW1W/",
           "horaires": "Tu-Sa 10:00-19:00; Su 14:00-18:00",
           "telephone": "+33 4 78 89 88 74"
+        },
+        {
+          "nom": "Intermarché",
+          "categorie": "hyper",
+          "distanceKm": 22.6,
+          "ville": "",
+          "adresse": "377 Rue Garibaldi",
+          "lat": 45.74418,
+          "lon": 4.84826,
+          "site": "https://www.intermarche.com/magasins/07801/lyon-69007/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-20:30; Su 09:00-20:00",
+          "telephone": "+33 4 37 65 40 07"
+        },
+        {
+          "nom": "Warhammer",
+          "categorie": "jeux",
+          "distanceKm": 22.6,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.76532,
+          "lon": 4.85692,
+          "site": "",
+          "horaires": "Tu-Fr 12:00-18:00; Sa 10:00-13:00,14:00-18:00",
+          "telephone": "+33 4 78 26 28 77"
         },
         {
           "nom": "Trollune",
@@ -2971,40 +2574,16 @@
           "telephone": "+33 4 78 88 71 88"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 23.1,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.816,
-          "lon": 4.88946,
-          "site": "https://www.action.com/fr-fr/points-de-vente/rillieux-la-pape-2133-route-de-strasboug/",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Super U",
+          "nom": "Auchan Supermarché",
           "categorie": "hyper",
           "distanceKm": 23.2,
           "ville": "",
           "adresse": "",
-          "lat": 45.76713,
-          "lon": 4.84957,
-          "site": "https://www.magasins-u.com/magasin/superu-lyon6eme",
-          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-13:00",
-          "telephone": "+33478524082"
-        },
-        {
-          "nom": "Master Yeti",
-          "categorie": "jeux",
-          "distanceKm": 23.2,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.76953,
-          "lon": 4.85199,
-          "site": "https://masteryeti.fr/",
-          "horaires": "Mo-Sa 10:00-19:30",
-          "telephone": "+33 4 78 93 38 80"
+          "lat": 45.74894,
+          "lon": 4.84215,
+          "site": "https://www.auchan.fr/magasins/supermarche/auchan-supermarche-city-lyon-universite/s-1380",
+          "horaires": "Mo-Su 08:30-21:00",
+          "telephone": "+33 4 37 28 15 66"
         },
         {
           "nom": "Intermarché",
@@ -3019,16 +2598,28 @@
           "telephone": ""
         },
         {
-          "nom": "Auchan Supermarché",
+          "nom": "Master Yeti",
+          "categorie": "jeux",
+          "distanceKm": 23.2,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.76953,
+          "lon": 4.85199,
+          "site": "https://masteryeti.fr/",
+          "horaires": "Mo-Sa 10:00-19:30",
+          "telephone": "+33 4 78 93 38 80"
+        },
+        {
+          "nom": "Super U",
           "categorie": "hyper",
           "distanceKm": 23.2,
           "ville": "",
           "adresse": "",
-          "lat": 45.74894,
-          "lon": 4.84215,
-          "site": "https://www.auchan.fr/magasins/supermarche/auchan-supermarche-city-lyon-universite/s-1380",
-          "horaires": "Mo-Su 08:30-21:00",
-          "telephone": "+33 4 37 28 15 66"
+          "lat": 45.76713,
+          "lon": 4.84957,
+          "site": "https://www.magasins-u.com/magasin/superu-lyon6eme",
+          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-13:00",
+          "telephone": "+33478524082"
         },
         {
           "nom": "Auchan Supermarché",
@@ -3041,6 +2632,18 @@
           "site": "https://www.auchan.fr/magasins/supermarche/auchan-supermarche-lyon-gerland/s-1406",
           "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:30,13:00-20:30",
           "telephone": "+33 4 37 65 38 80"
+        },
+        {
+          "nom": "Carrefour Market",
+          "categorie": "hyper",
+          "distanceKm": 23.4,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.68877,
+          "lon": 4.82844,
+          "site": "https://www.carrefour.fr/magasin/market-irigny",
+          "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
+          "telephone": "+33 4 78 51 26 26"
         },
         {
           "nom": "Auchan Supermarché",
@@ -3060,35 +2663,11 @@
           "distanceKm": 23.4,
           "ville": "",
           "adresse": "",
-          "lat": 45.68877,
-          "lon": 4.82844,
-          "site": "https://www.carrefour.fr/magasin/market-irigny",
-          "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
-          "telephone": "+33 4 78 51 26 26"
-        },
-        {
-          "nom": "Carrefour Market",
-          "categorie": "hyper",
-          "distanceKm": 23.4,
-          "ville": "",
-          "adresse": "",
           "lat": 45.90041,
           "lon": 5.19005,
           "site": "https://www.carrefour.fr/magasin/market-meximieux",
           "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
           "telephone": "+33 4 74 61 06 82"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 23.5,
-          "ville": "Oullins-Pierre-Bénite",
-          "adresse": "147 Boulevard de l'Europe",
-          "lat": 45.69585,
-          "lon": 4.827,
-          "site": "https://www.action.com/fr-fr/points-de-vente/pierre-benite/",
-          "horaires": "Mo-Sa 08:30-20:00",
-          "telephone": ""
         },
         {
           "nom": "King Jouet",
@@ -3100,18 +2679,6 @@
           "lon": 4.86161,
           "site": "",
           "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 23.7,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.72969,
-          "lon": 4.82876,
-          "site": "https://www.action.com/fr-fr/points-de-vente/lyon/",
-          "horaires": "Mo-Sa 08:30-20:00",
           "telephone": ""
         },
         {
@@ -3163,18 +2730,6 @@
           "telephone": "+33 4 78 72 25 27"
         },
         {
-          "nom": "Intermarché",
-          "categorie": "hyper",
-          "distanceKm": 23.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.70086,
-          "lon": 4.82275,
-          "site": "https://www.intermarche.com/magasins/10545/pierre-benite-69310/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:45",
-          "telephone": "+33 4 78 50 72 48"
-        },
-        {
           "nom": "Jeuxvideo.fr",
           "categorie": "culture",
           "distanceKm": 23.9,
@@ -3185,6 +2740,18 @@
           "site": "",
           "horaires": "Mo-Fr 10:00-12:30,14:00-19:00; Sa 10:00-19:00",
           "telephone": "+33 4 78 42 12 12"
+        },
+        {
+          "nom": "Intermarché",
+          "categorie": "hyper",
+          "distanceKm": 23.9,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.70086,
+          "lon": 4.82275,
+          "site": "https://www.intermarche.com/magasins/10545/pierre-benite-69310/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:45",
+          "telephone": "+33 4 78 50 72 48"
         },
         {
           "nom": "King Jouet",
@@ -3211,28 +2778,16 @@
           "telephone": "+33478381827"
         },
         {
-          "nom": "Ainay Philatélie",
+          "nom": "Agnoletto & fils",
           "categorie": "jeux",
           "distanceKm": 24.1,
           "ville": "",
           "adresse": "",
-          "lat": 45.75237,
-          "lon": 4.83121,
-          "site": "https://www.ainay-philatelie.fr/",
-          "horaires": "Mo 14:00-18:00; Tu-Fr 09:30-12:00, 14:00-18:30; Sa 09:30-12:00, 14:00-17:00",
-          "telephone": "+33487382433"
-        },
-        {
-          "nom": "Lugdunumis",
-          "categorie": "jeux",
-          "distanceKm": 24.1,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.75223,
-          "lon": 4.83113,
-          "site": "http://www.lugdunumis.free.fr/",
-          "horaires": "Mo 15:00-19:00; Tu-Fr 09:30-12:00, 14:30-19:00; Sa 09:30-12:00",
-          "telephone": "+33472409652"
+          "lat": 45.751,
+          "lon": 4.83038,
+          "site": "",
+          "horaires": "Mo 14:00-18:30; Tu-Sa 09:30-12:00, 14:00-18:30",
+          "telephone": "+33 4 78 92 84 36"
         },
         {
           "nom": "Alliance Philatélie",
@@ -3259,40 +2814,28 @@
           "telephone": "+33472101285"
         },
         {
-          "nom": "Agnoletto & fils",
+          "nom": "Lugdunumis",
           "categorie": "jeux",
           "distanceKm": 24.1,
           "ville": "",
           "adresse": "",
-          "lat": 45.751,
-          "lon": 4.83038,
-          "site": "",
-          "horaires": "Mo 14:00-18:30; Tu-Sa 09:30-12:00, 14:00-18:30",
-          "telephone": "+33 4 78 92 84 36"
+          "lat": 45.75223,
+          "lon": 4.83113,
+          "site": "http://www.lugdunumis.free.fr/",
+          "horaires": "Mo 15:00-19:00; Tu-Fr 09:30-12:00, 14:30-19:00; Sa 09:30-12:00",
+          "telephone": "+33472409652"
         },
         {
-          "nom": "Mangarake",
+          "nom": "Ainay Philatélie",
           "categorie": "jeux",
-          "distanceKm": 24.2,
+          "distanceKm": 24.1,
           "ville": "",
           "adresse": "",
-          "lat": 45.75436,
-          "lon": 4.83012,
-          "site": "",
-          "horaires": "Mo-Sa 10:00-19:30; Su 11:00-19:00",
-          "telephone": ""
-        },
-        {
-          "nom": "Fuji Store - Lyon",
-          "categorie": "jouets",
-          "distanceKm": 24.2,
-          "ville": "Lyon",
-          "adresse": "17 Rue Mulet",
-          "lat": 45.76586,
-          "lon": 4.8364,
-          "site": "https://fuji-store.fr",
-          "horaires": "Mo,Tu,We,Th,Fr,Sa 10:00-20:00",
-          "telephone": "+33 4 72 07 08 37"
+          "lat": 45.75237,
+          "lon": 4.83121,
+          "site": "https://www.ainay-philatelie.fr/",
+          "horaires": "Mo 14:00-18:00; Tu-Fr 09:30-12:00, 14:00-18:30; Sa 09:30-12:00, 14:00-17:00",
+          "telephone": "+33487382433"
         },
         {
           "nom": "Micromania",
@@ -3307,16 +2850,16 @@
           "telephone": "+33472410710"
         },
         {
-          "nom": "L'Arbre aux Lutins",
-          "categorie": "jouets",
+          "nom": "Le Coin des Barons",
+          "categorie": "jeux",
           "distanceKm": 24.2,
           "ville": "",
           "adresse": "",
-          "lat": 45.75246,
-          "lon": 4.82933,
-          "site": "https://arbreauxlutins.com/",
-          "horaires": "Tu, Fr 10:00-14:00, 15:00-19:00; We 10:00-14:30, 15:30-19:00; Th 10:00-14:00, 15:00-18:00; Sa 10:15-14:00, 15:00-18:30",
-          "telephone": "+33437576463"
+          "lat": 45.75229,
+          "lon": 4.82928,
+          "site": "https://lecoindesbarons.com",
+          "horaires": "Mo,Tu 13:00-19:00; We-Fr 11:00-19:00; Sa 11:00-20:00; Su 13:00-18:30",
+          "telephone": "+33676822862"
         },
         {
           "nom": "Jeux Descartes",
@@ -3343,16 +2886,16 @@
           "telephone": "+33 4 78 37 16 22"
         },
         {
-          "nom": "Le Coin des Barons",
-          "categorie": "jeux",
+          "nom": "Fuji Store - Lyon",
+          "categorie": "jouets",
           "distanceKm": 24.2,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.75229,
-          "lon": 4.82928,
-          "site": "https://lecoindesbarons.com",
-          "horaires": "Mo,Tu 13:00-19:00; We-Fr 11:00-19:00; Sa 11:00-20:00; Su 13:00-18:30",
-          "telephone": "+33676822862"
+          "ville": "Lyon",
+          "adresse": "17 Rue Mulet",
+          "lat": 45.76586,
+          "lon": 4.8364,
+          "site": "https://fuji-store.fr",
+          "horaires": "Mo,Tu,We,Th,Fr,Sa 10:00-20:00",
+          "telephone": "+33 4 72 07 08 37"
         },
         {
           "nom": "Le beau monde du jouet",
@@ -3379,6 +2922,30 @@
           "telephone": "+33 4 78 37 47 47"
         },
         {
+          "nom": "L'Arbre aux Lutins",
+          "categorie": "jouets",
+          "distanceKm": 24.2,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.75246,
+          "lon": 4.82933,
+          "site": "https://arbreauxlutins.com/",
+          "horaires": "Tu, Fr 10:00-14:00, 15:00-19:00; We 10:00-14:30, 15:30-19:00; Th 10:00-14:00, 15:00-18:00; Sa 10:15-14:00, 15:00-18:30",
+          "telephone": "+33437576463"
+        },
+        {
+          "nom": "Mangarake",
+          "categorie": "jeux",
+          "distanceKm": 24.2,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.75436,
+          "lon": 4.83012,
+          "site": "",
+          "horaires": "Mo-Sa 10:00-19:30; Su 11:00-19:00",
+          "telephone": ""
+        },
+        {
           "nom": "Archi Chouette",
           "categorie": "jeux",
           "distanceKm": 24.3,
@@ -3403,30 +2970,6 @@
           "telephone": "+33 4 27 44 50 41"
         },
         {
-          "nom": "Auchan",
-          "categorie": "hyper",
-          "distanceKm": 24.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.80343,
-          "lon": 4.85733,
-          "site": "https://www.auchan.fr/magasins/hypermarche/auchan-hypermarche-caluire/s-41",
-          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:30",
-          "telephone": ""
-        },
-        {
-          "nom": "Repère geek",
-          "categorie": "jouets",
-          "distanceKm": 24.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.77989,
-          "lon": 4.84102,
-          "site": "https://reperegeek.fr/",
-          "horaires": "Tu-Sa 10:30-19:00",
-          "telephone": "+33984282386"
-        },
-        {
           "nom": "Bonhomme de Bois",
           "categorie": "jouets",
           "distanceKm": 24.4,
@@ -3437,18 +2980,6 @@
           "site": "https://www.bonhommedebois.com/bonhomme-de-bois-lyon-presqu-ile",
           "horaires": "Su 10:00-19:00; Mo 14:00-19:00; Tu-Fr 10:00-13:30,14:30-19:00",
           "telephone": "+33 4 78 72 16 79"
-        },
-        {
-          "nom": "Modelisme jet",
-          "categorie": "jouets",
-          "distanceKm": 24.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.76487,
-          "lon": 4.83246,
-          "site": "",
-          "horaires": "Tu-Sa 10:00-12:30,14:30-19:00",
-          "telephone": ""
         },
         {
           "nom": "Micromania",
@@ -3463,16 +2994,40 @@
           "telephone": "+33 4 72 27 03 05"
         },
         {
-          "nom": "Game Spirit",
-          "categorie": "culture",
-          "distanceKm": 24.5,
+          "nom": "Repère geek",
+          "categorie": "jouets",
+          "distanceKm": 24.4,
           "ville": "",
-          "adresse": "23 Quai Jean moulin",
-          "lat": 45.76667,
-          "lon": 4.83169,
-          "site": "https://www.gamespirit.fr/",
-          "horaires": "Mo-We 11:00-13:00,14:00-19:00; Th-Sa 11:00-13:00,14:00-22:00; Su off",
-          "telephone": "+33 4 58 28 14 88"
+          "adresse": "",
+          "lat": 45.77989,
+          "lon": 4.84102,
+          "site": "https://reperegeek.fr/",
+          "horaires": "Tu-Sa 10:30-19:00",
+          "telephone": "+33984282386"
+        },
+        {
+          "nom": "Modelisme jet",
+          "categorie": "jouets",
+          "distanceKm": 24.4,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.76487,
+          "lon": 4.83246,
+          "site": "",
+          "horaires": "Tu-Sa 10:00-12:30,14:30-19:00",
+          "telephone": ""
+        },
+        {
+          "nom": "Auchan",
+          "categorie": "hyper",
+          "distanceKm": 24.4,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.80343,
+          "lon": 4.85733,
+          "site": "https://www.auchan.fr/magasins/hypermarche/auchan-hypermarche-caluire/s-41",
+          "horaires": "Mo-Sa 08:30-21:00; Su 08:30-12:30",
+          "telephone": ""
         },
         {
           "nom": "Numismatique",
@@ -3497,6 +3052,18 @@
           "site": "",
           "horaires": "Mo-Sa 08:30-20:30; Su 08:30-12:30",
           "telephone": "+33 4 78 23 30 69"
+        },
+        {
+          "nom": "Game Spirit",
+          "categorie": "culture",
+          "distanceKm": 24.5,
+          "ville": "",
+          "adresse": "23 Quai Jean moulin",
+          "lat": 45.76667,
+          "lon": 4.83169,
+          "site": "https://www.gamespirit.fr/",
+          "horaires": "Mo-We 11:00-13:00,14:00-19:00; Th-Sa 11:00-13:00,14:00-22:00; Su off",
+          "telephone": "+33 4 58 28 14 88"
         },
         {
           "nom": "Auchan Supermarché",
@@ -3555,7 +3122,7 @@
           "lat": 45.52774,
           "lon": 4.91681,
           "site": "https://www.carrefour.fr/magasin/market-pont-eveque",
-          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
+          "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
           "telephone": "+33 4 74 85 98 43"
         },
         {
@@ -3631,16 +3198,16 @@
           "telephone": "+33 4 74 88 50 55"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 24.9,
-          "ville": "Pont-Évêque",
-          "adresse": "1 Allée de la Tour",
-          "lat": 45.52616,
-          "lon": 4.91832,
-          "site": "",
-          "horaires": "Mo-Sa 09:00-19:00",
-          "telephone": ""
+          "nom": "Moulin Roty Lyon",
+          "categorie": "jouets",
+          "distanceKm": 25.0,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.7785,
+          "lon": 4.83213,
+          "site": "https://www.moulinroty.com/fr/partners/moulin-roty-lyon/",
+          "horaires": "Mo 14:00-19:00; Tu,We,Th,Fr,Sa 10:00-19:00; Su 10:00-13:00,14:00-19:00",
+          "telephone": "+33750944591;+33478396070"
         },
         {
           "nom": "Geek & Toys",
@@ -3653,18 +3220,6 @@
           "site": "https://www.geekandtoys.com/",
           "horaires": "Mo-Tu 13:00-19:00; We, Sa 10:00-19:00",
           "telephone": "+33 4 26 00 89 35"
-        },
-        {
-          "nom": "Moulin Roty Lyon",
-          "categorie": "jouets",
-          "distanceKm": 25.0,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.7785,
-          "lon": 4.83213,
-          "site": "https://www.moulinroty.com/fr/partners/moulin-roty-lyon/",
-          "horaires": "Mo 14:00-19:00; Tu,We,Th,Fr,Sa 10:00-19:00; Su 10:00-13:00,14:00-19:00",
-          "telephone": "+33750944591;+33478396070"
         },
         {
           "nom": "Intermarché",
@@ -3691,16 +3246,16 @@
           "telephone": "+334 78 73 23 89"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 25.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.68315,
-          "lon": 5.45608,
-          "site": "https://www.action.com/fr-fr/points-de-vente/morestel-route-de-lyon/",
-          "horaires": "",
-          "telephone": ""
+          "nom": "Oullins Collections",
+          "categorie": "jeux",
+          "distanceKm": 25.5,
+          "ville": "Oullins",
+          "adresse": "Boulevard Émile Zola",
+          "lat": 45.71952,
+          "lon": 4.80323,
+          "site": "https://www.oullinscollection.fr/",
+          "horaires": "Tu-Fr 10:00-12:00,14:30-18:00; Sa 09:00-12:00",
+          "telephone": "+33 4 72 39 06 88"
         },
         {
           "nom": "Ma Cabane Dans Les Étoiles",
@@ -3713,18 +3268,6 @@
           "site": "https://macabanelyon.sumup.link/",
           "horaires": "Mo-Fr 10:00-12:00,13:00-18:00; We off; Sa 09:00-12:00",
           "telephone": "+33 6 10 74 86 00"
-        },
-        {
-          "nom": "Oullins Collections",
-          "categorie": "jeux",
-          "distanceKm": 25.5,
-          "ville": "Oullins",
-          "adresse": "Boulevard Émile Zola",
-          "lat": 45.71952,
-          "lon": 4.80323,
-          "site": "https://www.oullinscollection.fr/",
-          "horaires": "Tu-Fr 10:00-12:00,14:30-18:00; Sa 09:00-12:00",
-          "telephone": "+33 4 72 39 06 88"
         },
         {
           "nom": "Carrefour Market",
@@ -3747,7 +3290,7 @@
           "lat": 45.51845,
           "lon": 4.91938,
           "site": "https://www.intermarche.com/magasins/10112/vienne-38200/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:15",
+          "horaires": "Mo-Sa 08:30-19:30; Su 08:30-12:30",
           "telephone": "+33 4 74 57 74 44"
         },
         {
@@ -3763,16 +3306,16 @@
           "telephone": "+33 9 81 47 73 06"
         },
         {
-          "nom": "Intermarché",
+          "nom": "Auchan Supermarché",
           "categorie": "hyper",
           "distanceKm": 26.3,
           "ville": "",
           "adresse": "",
-          "lat": 45.72078,
-          "lon": 4.79414,
-          "site": "https://www.intermarche.com/magasins/10753/oullins-69600/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-19:45; Su 08:45-12:30",
-          "telephone": "+33 4 78 51 35 74"
+          "lat": 45.74978,
+          "lon": 4.80072,
+          "site": "https://www.auchan.fr/magasins/supermarche/auchan-supermarche-lyon-sainte-foy/s-1174",
+          "horaires": "Mo-Sa 08:30-20:30; Su 08:30-12:30,13:00-20:00",
+          "telephone": "+33 4 72 38 83 04"
         },
         {
           "nom": "Auchan",
@@ -3787,16 +3330,28 @@
           "telephone": "+33 4 78 86 86 36"
         },
         {
-          "nom": "Auchan Supermarché",
+          "nom": "Intermarché",
           "categorie": "hyper",
           "distanceKm": 26.3,
           "ville": "",
           "adresse": "",
-          "lat": 45.74978,
-          "lon": 4.80072,
-          "site": "https://www.auchan.fr/magasins/supermarche/auchan-supermarche-lyon-sainte-foy/s-1174",
-          "horaires": "Mo-Sa 08:30-20:30; Su 08:30-12:30,13:00-20:00",
-          "telephone": "+33 4 72 38 83 04"
+          "lat": 45.72078,
+          "lon": 4.79414,
+          "site": "https://www.intermarche.com/magasins/10753/oullins-69600/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:45; Su 08:45-12:30",
+          "telephone": "+33 4 78 51 35 74"
+        },
+        {
+          "nom": "Intermarché",
+          "categorie": "hyper",
+          "distanceKm": 26.4,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.74207,
+          "lon": 4.79718,
+          "site": "https://www.intermarche.com/magasins/11787/sainte-foy-les-lyon-69110/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
+          "telephone": "+33 4 72 16 16 00"
         },
         {
           "nom": "Carrefour Market",
@@ -3823,18 +3378,6 @@
           "telephone": "+33 4 78 25 01 54"
         },
         {
-          "nom": "Intermarché",
-          "categorie": "hyper",
-          "distanceKm": 26.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.74207,
-          "lon": 4.79718,
-          "site": "https://www.intermarche.com/magasins/11787/sainte-foy-les-lyon-69110/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
-          "telephone": "+33 4 72 16 16 00"
-        },
-        {
           "nom": "Auchan Supermarché",
           "categorie": "hyper",
           "distanceKm": 26.7,
@@ -3859,18 +3402,6 @@
           "telephone": "+33 4 72 85 60 20"
         },
         {
-          "nom": "L'Odyssée des Coccinelles",
-          "categorie": "jeux",
-          "distanceKm": 26.9,
-          "ville": "",
-          "adresse": "26 Rue Masaryk",
-          "lat": 45.77912,
-          "lon": 4.80504,
-          "site": "https://www.lodysseedescoccinelles.com",
-          "horaires": "Tu-Fr 10:00-13:00, 14:00-19:00; Sa 10:00-19:00",
-          "telephone": ""
-        },
-        {
           "nom": "La Guilde des Figurinistes",
           "categorie": "jeux",
           "distanceKm": 26.9,
@@ -3883,15 +3414,15 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 27.0,
+          "nom": "L'Odyssée des Coccinelles",
+          "categorie": "jeux",
+          "distanceKm": 26.9,
           "ville": "",
-          "adresse": "",
-          "lat": 45.77601,
-          "lon": 4.80212,
-          "site": "https://www.action.com/fr-fr/points-de-vente/lyon-19-rue-tissot/",
-          "horaires": "Mo-Sa 08:30-20:00",
+          "adresse": "26 Rue Masaryk",
+          "lat": 45.77912,
+          "lon": 4.80504,
+          "site": "https://www.lodysseedescoccinelles.com",
+          "horaires": "Tu-Fr 10:00-13:00, 14:00-19:00; Sa 10:00-19:00",
           "telephone": ""
         },
         {
@@ -3907,18 +3438,6 @@
           "telephone": "+33 4 72 38 87 03"
         },
         {
-          "nom": "Intermarché Super",
-          "categorie": "hyper",
-          "distanceKm": 27.1,
-          "ville": "Briord",
-          "adresse": "Rue des Verchères",
-          "lat": 45.78758,
-          "lon": 5.45298,
-          "site": "https://www.intermarche.com/magasins/06877/briord-01470/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
-          "telephone": "+33 4 74 40 48 00"
-        },
-        {
           "nom": "La Règle du Jeu",
           "categorie": "jeux",
           "distanceKm": 27.1,
@@ -3929,6 +3448,18 @@
           "site": "https://www.lrdj.fr/",
           "horaires": "Tu-Fr 10:00-12:00,13:00-19:00; Sa 10:00-19:00",
           "telephone": "+33 9 67 21 52 44"
+        },
+        {
+          "nom": "Intermarché Super",
+          "categorie": "hyper",
+          "distanceKm": 27.1,
+          "ville": "Briord",
+          "adresse": "Rue des Verchères",
+          "lat": 45.78758,
+          "lon": 5.45298,
+          "site": "https://www.intermarche.com/magasins/06877/briord-01470/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
+          "telephone": "+33 4 74 40 48 00"
         },
         {
           "nom": "Intermarché",
@@ -4037,18 +3568,6 @@
           "site": "https://www.carrefour.fr/magasin/francheville",
           "horaires": "Mo-We 08:30-21:00; Th-Fr 08:30-21:30; Sa 08:30-21:00; Su 08:30-12:30",
           "telephone": "+33472163979"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 28.0,
-          "ville": "Chasse-sur-Rhône",
-          "adresse": "",
-          "lat": 45.57275,
-          "lon": 4.81383,
-          "site": "https://www.action.com/fr-fr/points-de-vente/chasse-sur-rhone-1833-avenue-frederic-mistral/",
-          "horaires": "Mo-Fr 08:30-19:30; Sa 08:30-19:00",
-          "telephone": ""
         },
         {
           "nom": "Intermarché Hyper",
@@ -4219,18 +3738,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 30.5,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.58609,
-          "lon": 4.76945,
-          "site": "https://www.action.com/fr-fr/points-de-vente/givors/",
-          "horaires": "Mo-Fr 08:30-19:30; Sa 08:30-19:00",
-          "telephone": ""
-        },
-        {
           "nom": "JouéClub",
           "categorie": "jouets",
           "distanceKm": 30.6,
@@ -4291,18 +3798,6 @@
           "telephone": ""
         },
         {
-          "nom": "Centre commercial E. Leclerc",
-          "categorie": "hyper",
-          "distanceKm": 32.4,
-          "ville": "",
-          "adresse": "95 Rue Ampère",
-          "lat": 45.89115,
-          "lon": 4.82179,
-          "site": "https://www.e.leclerc/mag/e-leclerc-genay",
-          "horaires": "Mo-Sa 08:30-20:00",
-          "telephone": ""
-        },
-        {
           "nom": "La Grande Récré",
           "categorie": "jouets",
           "distanceKm": 32.4,
@@ -4312,6 +3807,18 @@
           "lon": 4.74526,
           "site": "",
           "horaires": "",
+          "telephone": ""
+        },
+        {
+          "nom": "Centre commercial E. Leclerc",
+          "categorie": "hyper",
+          "distanceKm": 32.4,
+          "ville": "",
+          "adresse": "95 Rue Ampère",
+          "lat": 45.89115,
+          "lon": 4.82179,
+          "site": "https://www.e.leclerc/mag/e-leclerc-genay",
+          "horaires": "Mo-Sa 08:30-20:00",
           "telephone": ""
         },
         {
@@ -4349,18 +3856,6 @@
           "site": "https://www.auchan.fr/magasins/supermarche/auchan-supermarche-massieux/s-1329",
           "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
           "telephone": "+33 4 37 26 92 32"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 34.0,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.95978,
-          "lon": 5.34737,
-          "site": "https://www.action.com/fr-fr/points-de-vente/amberieu-en-bugey-avenue-leon-blum/",
-          "horaires": "Mo-Su 08:30-19:30",
-          "telephone": ""
         },
         {
           "nom": "Ambarprix",
@@ -4411,30 +3906,6 @@
           "telephone": ""
         },
         {
-          "nom": "Au pays des marionnettes",
-          "categorie": "jouets",
-          "distanceKm": 34.9,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.39343,
-          "lon": 5.25892,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Intermarché",
-          "categorie": "hyper",
-          "distanceKm": 34.9,
-          "ville": "",
-          "adresse": "36 Avenue Aristide Briand",
-          "lat": 45.39199,
-          "lon": 5.25291,
-          "site": "https://www.intermarche.com/",
-          "horaires": "Mo-Sa 08:30-19:30; Su 08:30-12:30",
-          "telephone": "+33474203756"
-        },
-        {
           "nom": "King Jouet",
           "categorie": "jouets",
           "distanceKm": 34.9,
@@ -4447,6 +3918,30 @@
           "telephone": "+33 4 74 36 79 94"
         },
         {
+          "nom": "Intermarché",
+          "categorie": "hyper",
+          "distanceKm": 34.9,
+          "ville": "",
+          "adresse": "36 Avenue Aristide Briand",
+          "lat": 45.39199,
+          "lon": 5.25291,
+          "site": "https://www.intermarche.com/magasins/01601/la-cote-saint-andre-38260/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:30; Su 08:30-12:30",
+          "telephone": "+33474203756"
+        },
+        {
+          "nom": "Au pays des marionnettes",
+          "categorie": "jouets",
+          "distanceKm": 34.9,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.39343,
+          "lon": 5.25892,
+          "site": "",
+          "horaires": "",
+          "telephone": ""
+        },
+        {
           "nom": "Casino",
           "categorie": "hyper",
           "distanceKm": 35.1,
@@ -4454,8 +3949,8 @@
           "adresse": "Rue Salpétrière",
           "lat": 45.39186,
           "lon": 5.25912,
-          "site": "https://magasins.supercasino.fr/supermarche/la-cote-saint-andre",
-          "horaires": "Mo-Sa 08:00-19:30; Su 09:00-12:30",
+          "site": "https://www.carrefour.fr/magasin/market-la-cote-saint-andre",
+          "horaires": "Mo-Sa 08:00-19:30; Su 08:30-12:30",
           "telephone": "+33 474206800"
         },
         {
@@ -4490,18 +3985,6 @@
           "adresse": "",
           "lat": 46.00719,
           "lon": 5.03648,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 36.0,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.45225,
-          "lon": 4.82311,
           "site": "",
           "horaires": "",
           "telephone": ""
@@ -4553,18 +4036,6 @@
           "site": "https://www.carrefour.fr/magasin/market-trevoux",
           "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
           "telephone": "+33 4 74 00 16 24"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 38.3,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.85567,
-          "lon": 4.69398,
-          "site": "https://www.action.com/fr-fr/points-de-vente/lozanne-chemin-du-vavre-33/",
-          "horaires": "Mo-Sa 08:30-19:30",
-          "telephone": ""
         },
         {
           "nom": "Intermarché",
@@ -4622,8 +4093,8 @@
           "adresse": "",
           "lat": 45.34121,
           "lon": 5.06566,
-          "site": "",
-          "horaires": "",
+          "site": "https://www.intermarche.com/magasins/11814/saint-barthelemy-38270/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:30; Su 08:29-12:31",
           "telephone": ""
         },
         {
@@ -4658,8 +4129,8 @@
           "adresse": "",
           "lat": 45.35333,
           "lon": 5.33272,
-          "site": "",
-          "horaires": "",
+          "site": "https://www.magasins-u.com/magasin/superu-saintetiennesaintgeoirs",
+          "horaires": "Mo-Sa 08:30-20:00; Su 08:30-12:30",
           "telephone": ""
         },
         {
@@ -4670,20 +4141,8 @@
           "adresse": "",
           "lat": 45.33536,
           "lon": 5.26701,
-          "site": "",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 41.3,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.35119,
-          "lon": 5.33306,
-          "site": "www.dia.fr",
-          "horaires": "",
+          "site": "https://www.intermarche.com/magasins/10454/saint-simeon-de-bressieux-38870/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:30; Su 09:00-12:30",
           "telephone": ""
         },
         {
@@ -4867,18 +4326,6 @@
           "telephone": ""
         },
         {
-          "nom": "Intermarché Super",
-          "categorie": "hyper",
-          "distanceKm": 44.4,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.77719,
-          "lon": 5.68988,
-          "site": "https://www.intermarche.com/magasins/10113/chazey-bons-01300/infos-pratiques",
-          "horaires": "Mo-Sa 08:30-19:15",
-          "telephone": "+33 4 79 81 56 99"
-        },
-        {
           "nom": "La Grande Récré",
           "categorie": "jouets",
           "distanceKm": 44.4,
@@ -4889,6 +4336,18 @@
           "site": "",
           "horaires": "Mo-Sa 09:30-19:00",
           "telephone": ""
+        },
+        {
+          "nom": "Intermarché Super",
+          "categorie": "hyper",
+          "distanceKm": 44.4,
+          "ville": "",
+          "adresse": "",
+          "lat": 45.77719,
+          "lon": 5.68988,
+          "site": "https://www.intermarche.com/magasins/10113/chazey-bons-01300/infos-pratiques",
+          "horaires": "Mo-Sa 08:30-19:15",
+          "telephone": "+33 4 79 81 56 99"
         },
         {
           "nom": "JouéClub",
@@ -4948,18 +4407,6 @@
           "lon": 5.70622,
           "site": "",
           "horaires": "",
-          "telephone": ""
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 45.4,
-          "ville": "Villefranche-sur-Saône",
-          "adresse": "240 Rue François Meunier-Vial",
-          "lat": 45.99594,
-          "lon": 4.73477,
-          "site": "https://www.action.com/fr-fr/points-de-vente/villefranche-sur-saone-240-rue-francois-meunier/",
-          "horaires": "Mo-Sa 08:30-20:00",
           "telephone": ""
         },
         {
@@ -5047,18 +4494,6 @@
           "telephone": "+33 4 74 29 22 79"
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 46.8,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.53181,
-          "lon": 5.68502,
-          "site": "https://www.action.com/fr-fr/points-de-vente/le-pont-de-beauvoisin-zac-de-la-baronnie---avenue-jean-jaures/",
-          "horaires": "",
-          "telephone": ""
-        },
-        {
           "nom": "Intermarché Super",
           "categorie": "hyper",
           "distanceKm": 46.8,
@@ -5091,7 +4526,7 @@
           "lat": 45.28981,
           "lon": 4.95343,
           "site": "https://www.magasins-u.com/magasin/superu-saintsorlinenvalloire.m90555",
-          "horaires": "Mo-Sa 08:45-19:45 Su 09:00-12:30",
+          "horaires": "Mo-Sa 08:45-19:45; Su 09:00-12:30",
           "telephone": ""
         },
         {
@@ -5117,18 +4552,6 @@
           "site": "https://www.cultura.com/les-magasins/cultura-salaise.html",
           "horaires": "Mo-Sa 09:00-19:30",
           "telephone": "+33 4 82 62 60 20"
-        },
-        {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 47.7,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.33037,
-          "lon": 4.80429,
-          "site": "https://www.action.com/fr-fr/points-de-vente/salaise-sur-sanne-avenue-plein-sud---parc-commercial-green/",
-          "horaires": "Mo-Sa 08:30-19:30",
-          "telephone": "+33 1 55 56 41 52"
         },
         {
           "nom": "La Grande Récré",
@@ -5215,18 +4638,6 @@
           "telephone": ""
         },
         {
-          "nom": "Action",
-          "categorie": "autres",
-          "distanceKm": 49.1,
-          "ville": "",
-          "adresse": "",
-          "lat": 45.38439,
-          "lon": 5.57939,
-          "site": "https://www.action.com/fr-fr/points-de-vente/voiron-zac-des-blanchisseries/",
-          "horaires": "Mo-Sa 08:30-19:30",
-          "telephone": ""
-        },
-        {
           "nom": "D en bulles",
           "categorie": "jeux",
           "distanceKm": 49.1,
@@ -5284,7 +4695,6 @@
         "Briord",
         "Bron",
         "Caluire-et-Cuire",
-        "Chasse-sur-Rhône",
         "Châtillon-sur-Chalaronne",
         "Décines-Charpieu",
         "Écully",
@@ -5303,7 +4713,6 @@
         "Miribel",
         "Mornant",
         "Oullins",
-        "Oullins-Pierre-Bénite",
         "Pont-Évêque",
         "Rillieux-la-Pape",
         "Rive-de-Gier",
