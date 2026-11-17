@@ -198,11 +198,26 @@
       "ajouteLe": "2026-11-15T21:17:28",
       "auto": true,
       "date": "2026-11-13"
+    },
+    {
+      "id": "mini-tin-eaux-merveilleuses",
+      "nom": "Mini tin Eaux Merveilleuses",
+      "type": "Mini-tin",
+      "prix": "11,99 €",
+      "statut": "estime",
+      "surveiller": true,
+      "recherche": "mini tin",
+      "motif": "^(?=.*\\bmini)(?=.*\\btin)(?=.*\\beaux)",
+      "source": "https://www.pokekalos.fr/tcgevents",
+      "note": "Contient 2 boosters du JCC Pokémon, 1 page d’autocollants, 1 carte artistique Pokémon représentant l’illustration de cette mini-boîte et 1 carte à code pour le JCC Pokémon Live.",
+      "ajouteLe": "2026-11-17T06:38:46",
+      "auto": true,
+      "date": "2027-01-29"
     }
   ],
-  "maj": "2026-11-15T21:17:28",
+  "maj": "2026-11-17T06:38:46",
   "majAuto": {
-    "date": "2026-11-15T21:17:28",
+    "date": "2026-11-17T06:38:46",
     "sources": [
       "Pokekalos",
       "Le Booster"
