@@ -213,11 +213,26 @@
       "ajouteLe": "2026-11-17T06:38:46",
       "auto": true,
       "date": "2027-01-29"
+    },
+    {
+      "id": "mini-boites-wonderful-waters",
+      "nom": "Mini-boîtes Wonderful Waters",
+      "type": "Produit",
+      "prix": "11,99 €",
+      "statut": "estime",
+      "surveiller": true,
+      "recherche": "mini boites",
+      "motif": "^(?=.*\\bmini)(?=.*\\bboites)(?=.*\\bwonderful)",
+      "source": "https://lebooster.fr/guides/calendrier-sorties-pokemon",
+      "note": "Cinq mini-boîtes sur le thème de l'eau, 11,99 € l'unité selon Pokékalos ; 2 boosters chacune d'après PokéGuardian le 16 novembre 2026",
+      "ajouteLe": "2026-11-19T06:39:57",
+      "auto": true,
+      "date": "2027-01-29"
     }
   ],
-  "maj": "2026-11-17T06:38:46",
+  "maj": "2026-11-19T06:39:57",
   "majAuto": {
-    "date": "2026-11-17T06:38:46",
+    "date": "2026-11-19T06:39:57",
     "sources": [
       "Pokekalos",
       "Le Booster"
